@@ -122,9 +122,7 @@ public class PSabot extends JPanel {
 		
 		myDragSourceMotionListener.setCurrentMovedCard(pc); // Pour le deplacement graphique de la carte
 		
-		JPanel castPC = (JPanel) pc;
-		
-		dragSource.startDrag(theInitialEvent, DragSource.DefaultMoveDrop, (Transferable) castPC, myDragSourceListener);
+		dragSource.startDrag(theInitialEvent, DragSource.DefaultMoveDrop, (Transferable) pc, myDragSourceListener);
 		
 		// startDrag -> fait a l'aide de la presentation sabot + donnee
 		// transferee (= pc) + event (= theInitialEvent)
