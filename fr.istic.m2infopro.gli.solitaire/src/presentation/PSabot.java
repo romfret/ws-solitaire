@@ -136,12 +136,12 @@ public class PSabot extends JPanel {
 	public void dragDropEnd(DragSourceDropEvent e) {
 		System.out.println("dragDropEnd");
 		
-		CTasDeCartes ctdc = (CTasDeCartes) e.getSource();
+		PTasDeCartes ptdc = (PTasDeCartes) e.getSource();
 		
 		try {
 			
 			cSabot.p2cDragDropEnd(e.getDropSuccess(),
-					(CCarte) ctdc.getSommet());
+					(CCarte) ptdc.getControle().getSommet());
 			
 		} catch (Exception e1) {
 			e1.printStackTrace();
