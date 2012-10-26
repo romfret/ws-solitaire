@@ -7,6 +7,11 @@ import java.awt.dnd.DragSourceListener;
 
 import presentation.PSabot;
 
+/**
+ * 
+ * Mettre cette classe en anonymme dans PSabot
+ *
+ */
 public class MyDragSourceListener implements DragSourceListener {
 
 	private PSabot pSabot;

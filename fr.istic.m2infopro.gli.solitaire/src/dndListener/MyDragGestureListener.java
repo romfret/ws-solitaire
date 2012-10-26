@@ -5,6 +5,11 @@ import java.awt.dnd.DragGestureListener;
 
 import presentation.PSabot;
 
+/**
+ * 
+ * Mettre cette classe en anonymme dans PSabot
+ *
+ */
 public class MyDragGestureListener implements DragGestureListener {
 
 	private PSabot pSabot;

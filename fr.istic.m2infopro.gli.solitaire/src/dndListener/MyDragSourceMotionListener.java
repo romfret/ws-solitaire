@@ -3,19 +3,20 @@ package dndListener;
 import java.awt.dnd.DragSourceDragEvent;
 import java.awt.dnd.DragSourceMotionListener;
 
-import presentation.PCarte;
+import presentation.PTasDeCartes;
 
 public class MyDragSourceMotionListener implements DragSourceMotionListener {
 
-	private PCarte currentMovedPCarte;
+	private PTasDeCartes currentMovedPTasDeCarte;
 	
 	public void dragMouseMoved(DragSourceDragEvent dsde) {
-		currentMovedPCarte.setLocation(1 + dsde.getX(), 1 + dsde.getY());
-		System.out.println(currentMovedPCarte.getLocation());
+		currentMovedPTasDeCarte.setLocation(1 + dsde.getX(), 1 + dsde.getY());
+//		currentMovedPTasDeCarte.repaint();
+		System.out.println("MyDragSourceMotionListener = " + currentMovedPTasDeCarte.getLocation());
 	}
 	
-	public void setCurrentMovedCard(PCarte currentMovedPCarte) {
-		this.currentMovedPCarte = currentMovedPCarte;
+	public void setCurrentMovedPTasDeCarte(PTasDeCartes pTasDeCartes) {
+		this.currentMovedPTasDeCarte = pTasDeCartes;
 	}
 
 

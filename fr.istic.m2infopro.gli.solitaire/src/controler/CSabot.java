@@ -67,7 +67,12 @@ public class CSabot extends Sabot {
 		if (cc != null) {
 			if (cc == getSommet()) {
 				depiler();
-				pSabot.c2pDebutDnDOK(cc.getPresentation());
+				
+				// Instanciation du Tas de carte transferable
+				CTasDeCartes ctdc = new CTasDeCartes("Drag", new CUsine());
+				ctdc.empiler(cc);
+				
+				pSabot.c2pDebutDnDOK(ctdc.getPresentation());
 			} else {
 				pSabot.c2pDebutDnDKO();
 				// + comptage des erreurs + reaction

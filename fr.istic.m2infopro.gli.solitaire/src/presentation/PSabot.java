@@ -1,7 +1,7 @@
 package presentation;
 
 import java.awt.Cursor;
-import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DragGestureEvent;
 import java.awt.dnd.DragSource;
@@ -9,11 +9,13 @@ import java.awt.dnd.DragSourceDropEvent;
 import java.awt.dnd.DragSourceMotionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
 
 import javax.swing.JPanel;
 
 import controler.CCarte;
 import controler.CSabot;
+import controler.CTasDeCartes;
 import dndListener.MyDragGestureListener;
 import dndListener.MyDragSourceListener;
 import dndListener.MyDragSourceMotionListener;
@@ -29,8 +31,8 @@ public class PSabot extends JPanel {
 	private RetournerCartesListener rcl;
 	private RetournerTasListener rtl;
 
+	// DnD
 	private DragGestureEvent theInitialEvent;
-	
 	private MyDragSourceListener myDragSourceListener;
 	private DragSource dragSource;
 	private MyDragSourceMotionListener myDragSourceMotionListener;
@@ -116,13 +118,14 @@ public class PSabot extends JPanel {
 		}
 	}
 
-	public void c2pDebutDnDOK(PCarte pc) {
+	public void c2pDebutDnDOK(PTasDeCartes pTasDeCartes) throws UnsupportedFlavorException, IOException {
 		System.out.println("c2pDebutDnDOK");
-		System.out.println("CCarte : " + pc.getControle().toString());
 		
-		myDragSourceMotionListener.setCurrentMovedCard(pc); // Pour le deplacement graphique de la carte
 		
-		dragSource.startDrag(theInitialEvent, DragSource.DefaultMoveDrop, (Transferable) pc, myDragSourceListener);
+		myDragSourceMotionListener.setCurrentMovedPTasDeCarte(pTasDeCartes); // Pour le deplacement graphique de la carte
+		
+		
+		dragSource.startDrag(theInitialEvent, DragSource.DefaultMoveDrop, pTasDeCartes, myDragSourceListener);
 		
 		// startDrag -> fait a l'aide de la presentation sabot + donnee
 		// transferee (= pc) + event (= theInitialEvent)
@@ -133,8 +136,19 @@ public class PSabot extends JPanel {
 	public void dragDropEnd(DragSourceDropEvent e) {
 		System.out.println("dragDropEnd");
 		
-		cSabot.p2cDragDropEnd(e.getDropSuccess(),
-				((PCarte) e.getSource()).getControle());
+		CTasDeCartes ctdc = (CTasDeCartes) e.getSource();
+		
+		try {
+			
+			cSabot.p2cDragDropEnd(e.getDropSuccess(),
+					(CCarte) ctdc.getSommet());
+			
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		
+//		cSabot.p2cDragDropEnd(e.getDropSuccess(),
+//				((PCarte) e.getSource()).getControle()); // version du td
 	}
 
 	public void c2pDebutDnDKO() {
@@ -145,7 +159,7 @@ public class PSabot extends JPanel {
 	}
 
 	public void c2pDebutDnDNull() {
-		System.out.println("c2pDebutDnDNull");
+		System.out.println("c2pDebutDnDNull : La PCarte est nulle");
 		
 		// S'il y avait besoin de faire un traitement sur un plantage du DnD
 		// Ici, il n'y a pas besoin de traitement en utilisanat AWT
