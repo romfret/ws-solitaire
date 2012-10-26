@@ -6,6 +6,8 @@ import java.awt.FlowLayout;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
+import dndListener.MyDragGestureListener;
+
 import presentation.PSabot;
 import presentation.PTasDeCartes;
 import solitaire.application.Sabot;
