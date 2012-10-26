@@ -17,11 +17,15 @@ import controler.CCarte;
  */
 public class PCarte extends JPanel {
 
+	
+	
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
-	 protected CCarte controle; // contr�leur associ�
+	private static final long serialVersionUID = 6544254070962077402L;
+	
+	protected CCarte controle; // contr�leur associ�
 	protected JLabel face, dos;
 	protected ImageIcon icone; // image de la face
 	protected static ImageIcon iconeDos; // image du dos

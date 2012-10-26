@@ -34,7 +34,6 @@ public class PSabot extends JPanel {
 	private MyDragSourceListener myDragSourceListener;
 	private DragSource dragSource;
 	private MyDragSourceMotionListener myDragSourceMotionListener;
-	private PCarte currentMovedPCarte;
 
 	/**
 	 * Le constructeur
@@ -96,16 +95,18 @@ public class PSabot extends JPanel {
 
 	
 	public void dragGestureRecognized(DragGestureEvent e) {
-		System.out.println("dragGestureRecognized\n");
-		
+		System.out.println("dragGestureRecognized");
 		CCarte cc;
 		PCarte pc;
 		theInitialEvent = e;
 		try {
-			pc = (PCarte) getComponentAt(e.getDragOrigin());
+//			pc = (PCarte) getComponentAt(e.getDragOrigin()); // version du td
+			pc = (PCarte) visibles.getComponentAt(e.getDragOrigin());
+			
 			cc = pc.getControle();
 			
-			myDragSourceMotionListener.setCurrentMovedCard(pc); // Pour le deplacement graphique de la carte
+			System.out.println("PCarte : " + pc.toString());
+			System.out.println("CCarte : " + cc.toString());
 			
 			// C'est le controle qui gere lui meme si cc est null apres que
 			// l'utilisateur est pas selectionne la bonne carte
@@ -117,8 +118,13 @@ public class PSabot extends JPanel {
 
 	public void c2pDebutDnDOK(PCarte pc) {
 		System.out.println("c2pDebutDnDOK");
+		System.out.println("CCarte : " + pc.getControle().toString());
 		
-		dragSource.startDrag(theInitialEvent, DragSource.DefaultMoveDrop, (Transferable) pc, myDragSourceListener);
+		myDragSourceMotionListener.setCurrentMovedCard(pc); // Pour le deplacement graphique de la carte
+		
+		JPanel castPC = (JPanel) pc;
+		
+		dragSource.startDrag(theInitialEvent, DragSource.DefaultMoveDrop, (Transferable) castPC, myDragSourceListener);
 		
 		// startDrag -> fait a l'aide de la presentation sabot + donnee
 		// transferee (= pc) + event (= theInitialEvent)
@@ -134,7 +140,7 @@ public class PSabot extends JPanel {
 	}
 
 	public void c2pDebutDnDKO() {
-		System.out.println("c2pDebutDnDKO");
+		System.out.println("c2pDebutDnDKO : Le drag and drop n'a pas fonctionné");
 		
 		// S'il y avait besoin de faire un traitement sur un plantage du DnD
 		// Ici, il n'y a pas besoin de traitement en utilisanat AWT
