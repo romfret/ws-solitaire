@@ -1,10 +1,12 @@
 package presentation;
 
+import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DragGestureEvent;
 import java.awt.dnd.DragSource;
+import java.awt.dnd.DragSourceContext;
 import java.awt.dnd.DragSourceDropEvent;
 import java.awt.dnd.DragSourceMotionListener;
 import java.awt.event.MouseEvent;
@@ -16,6 +18,7 @@ import javax.swing.JPanel;
 import controler.CCarte;
 import controler.CSabot;
 import controler.CTasDeCartes;
+import controler.CUsine;
 import dndListener.MyDragGestureListener;
 import dndListener.MyDragSourceListener;
 import dndListener.MyDragSourceMotionListener;
@@ -136,17 +139,24 @@ public class PSabot extends JPanel {
 	public void dragDropEnd(DragSourceDropEvent e) {
 		System.out.println("dragDropEnd");
 		
-		PTasDeCartes ptdc = (PTasDeCartes) e.getSource();
+		DragSourceContext dsc = (DragSourceContext) e.getSource();
 		
+//		PTasDeCartes ptdc = (PTasDeCartes) dsc.getComponent(); // reference sur le visibles du sabot et non sur le tas de carte tarsferable.
+		
+		PTasDeCartes ptdc = null;
 		try {
+			ptdc = (PTasDeCartes) dsc.getTransferable().getTransferData(null); // Recuperation de l'objet Transferable
 			
 			cSabot.p2cDragDropEnd(e.getDropSuccess(),
 					(CCarte) ptdc.getControle().getSommet());
 			
+		} catch (UnsupportedFlavorException e2) {
+			e2.printStackTrace();
+		} catch (IOException e2) {
+			e2.printStackTrace();
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
-		
 //		cSabot.p2cDragDropEnd(e.getDropSuccess(),
 //				((PCarte) e.getSource()).getControle()); // version du td
 	}

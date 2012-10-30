@@ -89,6 +89,8 @@ public class CSabot extends Sabot {
 
 	public void p2cDragDropEnd(boolean success, CCarte cc) {
 		if (!success) {
+			System.out.println("p2cDragDropEnd");
+			System.out.println("CCarte : " + cc.toString());
 			empiler(cc);
 		}
 	}
