@@ -25,7 +25,7 @@ public class CUsine extends Usine {
 
 	@Override
 	public DoubleTas newDoubleTas(Tas arg0, Tas arg1) {
-		return new CDoubleTas(arg0, arg1);
+		return super.newDoubleTas(arg0, arg1);
 	}
 
 	@Override
