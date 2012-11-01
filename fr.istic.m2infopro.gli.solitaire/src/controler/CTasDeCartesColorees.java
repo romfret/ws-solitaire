@@ -34,6 +34,7 @@ public class CTasDeCartesColorees extends TasDeCartesColorees {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		pTasDeCartesColorees.repaint();
 	}
 
 	/**
@@ -54,7 +55,6 @@ public class CTasDeCartesColorees extends TasDeCartesColorees {
 	
 	
 	// DnD
-	
 	
 	public void p2cDragEnter(CCarte cc) {
 		if(isEmpilable(cc))

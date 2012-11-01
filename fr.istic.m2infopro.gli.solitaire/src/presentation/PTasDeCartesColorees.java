@@ -1,10 +1,14 @@
 package presentation;
 
 import java.awt.dnd.DnDConstants;
+import java.awt.dnd.DropTargetDragEvent;
 import java.awt.dnd.DropTargetDropEvent;
+import java.awt.dnd.DropTargetEvent;
 
 import javax.swing.JPanel;
 
+import controler.CCarte;
+import controler.CTasDeCartes;
 import controler.CTasDeCartesColorees;
 
 public class PTasDeCartesColorees extends JPanel {
@@ -18,7 +22,7 @@ public class PTasDeCartesColorees extends JPanel {
 	private int yCourant;
 	
 	// Initialise par le dragEnter()
-	private PCarte pc;
+	private PCarte pcDrop;
 		
 	private DropTargetDropEvent theFinalEvent; // Initialise par drop()
 
@@ -43,6 +47,30 @@ public class PTasDeCartesColorees extends JPanel {
 
 	// DnD
 	
+	public void dragEnter(DropTargetEvent e) {
+		System.out.println("PTDCC.dragEnter");
+		
+		CTasDeCartes ctdc = ((PTasDeCartes)e.getSource()).getControle();
+		
+		try {
+			pcDrop = ((CCarte)ctdc.getSommet()).getPresentation();
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		
+		cTasDeCartesColorees.p2cDragEnter(pcDrop.getControle());
+	}
+
+	public void dragExit(DropTargetDragEvent e) {
+		cTasDeCartesColorees.p2cDragExit(pcDrop.getControle());
+	}
+
+	public void drop(DropTargetDropEvent e) {
+		cTasDeCartesColorees.p2cDrop(pcDrop.getControle());
+		theFinalEvent = e;
+	}
+
+	
 	public void c2pFinDnDOK() {
 		System.out.println("c2pFinDnDOK");
 		
@@ -58,19 +86,19 @@ public class PTasDeCartesColorees extends JPanel {
 	
 	public void c2pShowEmpilable() {
 		// TODO
-		// Afficher un effet visuel pour informer le joueur que la carte peut etre emiplee
+		// Afficher un effet visuel sur pcDrop pour informer le joueur que la carte peut etre emiplee
 		System.out.println("c2pShowEmpilable");
 	}
 
 	public void c2pShowNotEmpilable() {
 		// TODO
-		// Afficher un effet visuel pour informer le joueur que la carte ne peut pas etre empilee.
+		// Afficher un effet visuel sur pcDrop pour informer le joueur que la carte ne peut pas etre empilee.
 		System.out.println("c2pShowNotEmpilable");
 	}
 
 	public void c2pShowNeutral() {
 		// TODO
-		// Affiche la carte de facon normale (contrairement au changement de couleur lors de la selection)
+		// Affiche la carte de faco)n normale (contrairement au changement de couleur lors de la selection)
 		System.out.println("c2pShowNeutral");
 	}
 	

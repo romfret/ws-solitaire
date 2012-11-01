@@ -12,7 +12,7 @@ public class MyDragSourceMotionListener implements DragSourceMotionListener {
 	public void dragMouseMoved(DragSourceDragEvent dsde) {
 		currentMovedPTasDeCarte.setLocation(1 + dsde.getX(), 1 + dsde.getY());
 //		currentMovedPTasDeCarte.repaint();
-		System.out.println("MyDragSourceMotionListener = " + currentMovedPTasDeCarte.getLocation());
+//		System.out.println("MyDragSourceMotionListener = " + currentMovedPTasDeCarte.getLocation());
 	}
 	
 	public void setCurrentMovedPTasDeCarte(PTasDeCartes pTasDeCartes) {
