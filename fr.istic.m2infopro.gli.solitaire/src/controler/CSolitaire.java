@@ -15,12 +15,8 @@ import solitaire.application.TasDeCartesColorees;
 public class CSolitaire extends Solitaire {
 
 	private PSolitaire pSolitaire;
-	private PSabot pSabot;
-	
-	
 	public CSolitaire(String arg0, CUsine u) {
 		super(arg0, u);
-//		initialiser();
 	}
 
 	public PSolitaire getPresentation(){

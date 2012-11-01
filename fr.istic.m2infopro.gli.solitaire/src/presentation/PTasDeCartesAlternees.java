@@ -2,21 +2,17 @@ package presentation;
 
 import javax.swing.JPanel;
 
-import controler.CTasDeCartesAlternees;
-
 public class PTasDeCartesAlternees extends JPanel {
 
 	private static final long serialVersionUID = 8538693189076549058L;
 	
-	private CTasDeCartesAlternees cTasDeCartesAlternees;
 	private int dx;
 	private int dy;
 	private int xCourant;
 	private int yCourant;
 
-	public PTasDeCartesAlternees(CTasDeCartesAlternees cTasDeCartesAlternees) {
+	public PTasDeCartesAlternees() {
 		super();
-		this.cTasDeCartesAlternees = cTasDeCartesAlternees;
 		
 		// Permet d'empiler les cartes selon nos positions
 		setLayout(null);

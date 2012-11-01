@@ -3,7 +3,6 @@ package presentation;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
-import java.awt.GridLayout;
 
 import javax.swing.JPanel;
 
@@ -13,11 +12,8 @@ public class PSolitaire extends JPanel {
 	private static final long serialVersionUID = -7160926421677040759L;
 
 	
-	private PSabot pSabot;
 	private int i = 0;
 	private JPanel panels[];
-	private JPanel panelTDCC;
-	
 	public PSolitaire(CSolitaire cSolitaire) {
 		this.setLayout(new BorderLayout());
 		
@@ -51,7 +47,6 @@ public class PSolitaire extends JPanel {
 	}
 	
 	public void addPSabot(PSabot pSabot){
-		this.pSabot = pSabot;
 		pSabot.setLayout(new FlowLayout(FlowLayout.LEFT));
 		pSabot.setSize(this.getWidth(), PCarte.hauteur);		
 		this.add(pSabot, BorderLayout.PAGE_START);

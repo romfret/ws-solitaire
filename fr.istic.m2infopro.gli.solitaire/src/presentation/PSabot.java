@@ -1,6 +1,5 @@
 package presentation;
 
-import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.dnd.DnDConstants;
@@ -17,8 +16,6 @@ import javax.swing.JPanel;
 
 import controler.CCarte;
 import controler.CSabot;
-import controler.CTasDeCartes;
-import controler.CUsine;
 import dndListener.MyDragGestureListener;
 import dndListener.MyDragSourceListener;
 import dndListener.MyDragSourceMotionListener;

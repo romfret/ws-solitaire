@@ -1,7 +1,5 @@
 package presentation;
 
-import java.awt.GridLayout;
-
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
@@ -10,8 +8,6 @@ public class PColonne extends JPanel {
 
 	private static final long serialVersionUID = -7826492851733908362L;
 	
-	private PTasDeCartes cachees;
-	private PTasDeCartesAlternees visibles;
 	/**
 	 * Le constructeur
 	 * @param cachees
@@ -19,10 +15,6 @@ public class PColonne extends JPanel {
 	 */
 	public PColonne(PTasDeCartes cachees, PTasDeCartesAlternees visibles) {
 		super();
-		this.cachees = cachees;
-		this.visibles = visibles;
-		
-		
 		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		
 		add(cachees);

@@ -16,7 +16,7 @@ public class CTasDeCartesAlternees extends TasDeCartesAlternees {
 
 	public CTasDeCartesAlternees(String nom, CUsine u) {
 		super(nom, u);
-		pTasDeCartesAlternees = new PTasDeCartesAlternees(this);
+		pTasDeCartesAlternees = new PTasDeCartesAlternees();
 	}
 
 	/**
