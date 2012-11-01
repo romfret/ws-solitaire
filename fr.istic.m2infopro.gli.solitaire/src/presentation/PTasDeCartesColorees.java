@@ -1,9 +1,11 @@
 package presentation;
 
 import java.awt.dnd.DnDConstants;
+import java.awt.dnd.DropTarget;
 import java.awt.dnd.DropTargetDragEvent;
 import java.awt.dnd.DropTargetDropEvent;
 import java.awt.dnd.DropTargetEvent;
+import java.awt.dnd.DropTargetListener;
 
 import javax.swing.JPanel;
 
@@ -23,6 +25,7 @@ public class PTasDeCartesColorees extends JPanel {
 	
 	// Initialise par le dragEnter()
 	private PCarte pcDrop;
+	private DropTarget dropTarget;
 		
 	private DropTargetDropEvent theFinalEvent; // Initialise par drop()
 
@@ -34,6 +37,39 @@ public class PTasDeCartesColorees extends JPanel {
 		setLayout(null);
 		setSize(PCarte.largeur, PCarte.hauteur);
 		setPreferredSize(getSize());
+		
+		
+		// DnD
+		dropTarget = new DropTarget(this, new DropTargetListener() {
+			
+			@Override
+			public void dropActionChanged(DropTargetDragEvent dtde) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void drop(DropTargetDropEvent dtde) {
+				PTasDeCartesColorees.this.drop(dtde);
+			}
+			
+			@Override
+			public void dragOver(DropTargetDragEvent dtde) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void dragExit(DropTargetEvent dte) {
+				PTasDeCartesColorees.this.dragExit(dte);
+			}
+			
+			@Override
+			public void dragEnter(DropTargetDragEvent dtde) {
+				PTasDeCartesColorees.this.dragEnter(dtde);
+			}
+		}) ;
+
 	}
 
 	public void empiler(PCarte c) {
@@ -58,21 +94,27 @@ public class PTasDeCartesColorees extends JPanel {
 			e1.printStackTrace();
 		}
 		
+		System.out.println("CCarte : " + pcDrop.getControle().toString());
+		
 		cTasDeCartesColorees.p2cDragEnter(pcDrop.getControle());
 	}
 
-	public void dragExit(DropTargetDragEvent e) {
+	public void dragExit(DropTargetEvent e) {
+		System.out.println("PTDCC.dragExit");
+		
 		cTasDeCartesColorees.p2cDragExit(pcDrop.getControle());
 	}
 
 	public void drop(DropTargetDropEvent e) {
+		System.out.println("PTDCC.dragExit");
+		
 		cTasDeCartesColorees.p2cDrop(pcDrop.getControle());
 		theFinalEvent = e;
 	}
 
 	
 	public void c2pFinDnDOK() {
-		System.out.println("c2pFinDnDOK");
+		System.out.println("PTDCC.c2pFinDnDOK");
 		
 		theFinalEvent.acceptDrop(DnDConstants.ACTION_MOVE); // Voir le support de cours pour connaitre le parametre ad'hoc
 		theFinalEvent.getDropTargetContext().dropComplete(true);
@@ -81,25 +123,25 @@ public class PTasDeCartesColorees extends JPanel {
 	public void c2pFinDnDKO() {
 		// TODO
 		// Gestion du foirage de la fin du DnD
-		System.out.println("c2pFinDnDKO");
+		System.out.println("PTDCC.c2pFinDnDKO");
 	}
 	
 	public void c2pShowEmpilable() {
 		// TODO
 		// Afficher un effet visuel sur pcDrop pour informer le joueur que la carte peut etre emiplee
-		System.out.println("c2pShowEmpilable");
+		System.out.println("PTDCC.c2pShowEmpilable");
 	}
 
 	public void c2pShowNotEmpilable() {
 		// TODO
 		// Afficher un effet visuel sur pcDrop pour informer le joueur que la carte ne peut pas etre empilee.
-		System.out.println("c2pShowNotEmpilable");
+		System.out.println("PTDCC.c2pShowNotEmpilable");
 	}
 
 	public void c2pShowNeutral() {
 		// TODO
 		// Affiche la carte de faco)n normale (contrairement au changement de couleur lors de la selection)
-		System.out.println("c2pShowNeutral");
+		System.out.println("PTDCC.c2pShowNeutral");
 	}
 	
 
