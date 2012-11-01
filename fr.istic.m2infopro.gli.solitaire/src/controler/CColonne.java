@@ -38,6 +38,14 @@ public class CColonne extends Colonne {
 		pColonne.updateUI();
 	}
 	
+	@Override
+	public void depiler() throws Exception {
+		super.depiler();
+		if(visibles.isVide())
+			this.retournerCarte();
+		pColonne.updateUI();
+	}
+	
 	
 	/**
 	 * programme de test : � d�placer dans une classe d�di�e aux tests
