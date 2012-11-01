@@ -4,9 +4,13 @@ import java.awt.Cursor;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DragGestureEvent;
+import java.awt.dnd.DragGestureListener;
 import java.awt.dnd.DragSource;
 import java.awt.dnd.DragSourceContext;
+import java.awt.dnd.DragSourceDragEvent;
 import java.awt.dnd.DragSourceDropEvent;
+import java.awt.dnd.DragSourceEvent;
+import java.awt.dnd.DragSourceListener;
 import java.awt.dnd.DragSourceMotionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -16,8 +20,6 @@ import javax.swing.JPanel;
 
 import controler.CCarte;
 import controler.CSabot;
-import dndListener.MyDragGestureListener;
-import dndListener.MyDragSourceListener;
 import dndListener.MyDragSourceMotionListener;
 
 public class PSabot extends JPanel {
@@ -33,9 +35,9 @@ public class PSabot extends JPanel {
 
 	// DnD
 	private DragGestureEvent theInitialEvent;
-	private MyDragSourceListener myDragSourceListener;
 	private DragSource dragSource;
-	private MyDragSourceMotionListener myDragSourceMotionListener;
+	private MyDragSourceMotionListener dragSourceMotionListener;
+	private DragSourceListener dragSourceListener;
 
 	/**
 	 * Le constructeur
@@ -57,20 +59,50 @@ public class PSabot extends JPanel {
 		visibles.setDxDy(25, 0);
 		
 		this.activerRetournerCarte();
-		
-		// init DnD listener, peut etre fait dans une autre class
-		
-		myDragSourceListener = new MyDragSourceListener(this);
+
+		// DnD
 		
 		dragSource = new DragSource();
 		
 		dragSource.createDefaultDragGestureRecognizer(visibles,
-		DnDConstants.ACTION_MOVE, new MyDragGestureListener(this));
+		DnDConstants.ACTION_MOVE, new DragGestureListener() {
+			
+			@Override
+			public void dragGestureRecognized(DragGestureEvent arg0) {
+				PSabot.this.dragGestureRecognized(arg0);
+			}
+		});
 		
-		myDragSourceMotionListener = new MyDragSourceMotionListener();
-		dragSource.addDragSourceMotionListener((DragSourceMotionListener) myDragSourceMotionListener);
+		dragSourceMotionListener = new MyDragSourceMotionListener();
+		dragSource.addDragSourceMotionListener((DragSourceMotionListener) dragSourceMotionListener);
 
-
+		dragSourceListener = new DragSourceListener() {
+			
+			@Override
+			public void dropActionChanged(DragSourceDragEvent arg0) {
+				
+			}
+			
+			@Override
+			public void dragOver(DragSourceDragEvent arg0) {
+				
+			}
+			
+			@Override
+			public void dragExit(DragSourceEvent arg0) {
+				
+			}
+			
+			@Override
+			public void dragEnter(DragSourceDragEvent arg0) {
+				
+			}
+			
+			@Override
+			public void dragDropEnd(DragSourceDropEvent arg0) {
+				PSabot.this.dragDropEnd(arg0);
+			}
+		};
 	}
 
 	public void activerRetournerTas() {
@@ -95,17 +127,21 @@ public class PSabot extends JPanel {
 
 	
 	public void dragGestureRecognized(DragGestureEvent e) {
+		System.out.println("\n");
 		System.out.println("PSabot.dragGestureRecognized");
+		
+		
 		CCarte cc;
 		PCarte pc;
 		theInitialEvent = e;
 		try {
-//			pc = (PCarte) getComponentAt(e.getDragOrigin()); // version du td
+			
+			// Recuperation de la carte sous le curseur
 			pc = (PCarte) visibles.getComponentAt(e.getDragOrigin());
 			
 			cc = pc.getControle();
 			
-			System.out.println("PSabot -> CCarte : " + cc.toString());
+			System.out.println("    PSabot -> CCarte : " + cc.toString());
 			
 			// C'est le controle qui gere lui meme si cc est null apres que
 			// l'utilisateur est pas selectionne la bonne carte
@@ -117,12 +153,13 @@ public class PSabot extends JPanel {
 
 	public void c2pDebutDnDOK(PTasDeCartes pTasDeCartes) throws UnsupportedFlavorException, IOException {
 		System.out.println("PSabot.c2pDebutDnDOK");
+		System.out.println("  PSabot -> " + pTasDeCartes.getControle().toString());
 		
+		// Pour le deplacement graphique de la carte
+		dragSourceMotionListener.setCurrentMovedPTasDeCarte(pTasDeCartes);
 		
-		myDragSourceMotionListener.setCurrentMovedPTasDeCarte(pTasDeCartes); // Pour le deplacement graphique de la carte
-		
-		
-		dragSource.startDrag(theInitialEvent, DragSource.DefaultMoveDrop, pTasDeCartes, myDragSourceListener);
+		// Lancement du drag
+		dragSource.startDrag(theInitialEvent, DragSource.DefaultMoveDrop, pTasDeCartes, dragSourceListener);
 		
 		// startDrag -> fait a l'aide de la presentation sabot + donnee
 		// transferee (= pc) + event (= theInitialEvent)
@@ -133,13 +170,14 @@ public class PSabot extends JPanel {
 	public void dragDropEnd(DragSourceDropEvent e) {
 		System.out.println("PSabot.dragDropEnd");
 		
+		// Recuperation du contexte du drag
 		DragSourceContext dsc = (DragSourceContext) e.getSource();
-		
-//		PTasDeCartes ptdc = (PTasDeCartes) dsc.getComponent(); // reference sur le visibles du sabot et non sur le tas de carte tarsferable.
 		
 		PTasDeCartes ptdc = null;
 		try {
-			ptdc = (PTasDeCartes) dsc.getTransferable().getTransferData(null); // Recuperation de l'objet Transferable
+			
+			// Recuperation de l'objet Transferable PTasDeCartes
+			ptdc = (PTasDeCartes) dsc.getTransferable().getTransferData(PTasDeCartes.FLAVOR);
 			
 			cSabot.p2cDragDropEnd(e.getDropSuccess(),
 					(CCarte) ptdc.getControle().getSommet());
@@ -151,8 +189,9 @@ public class PSabot extends JPanel {
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
-//		cSabot.p2cDragDropEnd(e.getDropSuccess(),
-//				((PCarte) e.getSource()).getControle()); // version du td
+		
+		// Permet de re-afficher une carte draguee dont le drop n'aurait pas abouti 
+		repaint();
 	}
 
 	public void c2pDebutDnDKO() {

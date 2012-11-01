@@ -10,8 +10,9 @@ import presentation.PCarte;
 import solitaire.application.Carte;
 
 public class CCarte extends Carte {
-
+	
 	private PCarte pCarte;
+
 
 	public CCarte(int v, int c) {
 		super(Math.max(1, Math.min(v, Carte.NbCartesParCouleur)), Math

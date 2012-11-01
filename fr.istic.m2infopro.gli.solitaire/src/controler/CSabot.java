@@ -68,7 +68,7 @@ public class CSabot extends Sabot {
 			if (cc == getSommet()) {
 				depiler();
 				
-				// Instanciation du Tas de carte transferable
+				// Instanciation du Tas de carte transferable contenant la carte a transferer
 				CTasDeCartes ctdc = new CTasDeCartes("Drag", new CUsine());
 				ctdc.empiler(cc);
 				
@@ -90,7 +90,7 @@ public class CSabot extends Sabot {
 	public void p2cDragDropEnd(boolean success, CCarte cc) {
 		if (!success) {
 			System.out.println("CSabot.p2cDragDropEnd");
-			System.out.println("PSabot -> CCarte : " + cc.toString());
+			System.out.println("  CSabot -> CCarte : " + cc.toString());
 			empiler(cc);
 		}
 	}

@@ -57,10 +57,10 @@ public class CTasDeCartesColorees extends TasDeCartesColorees {
 	// DnD
 	
 	public void p2cDragEnter(CCarte cc) {
-//		if(isEmpilable(cc))
+		if(isEmpilable(cc))
 			pTasDeCartesColorees.c2pShowEmpilable();
-//		else
-//			pTasDeCartesColorees.c2pShowNotEmpilable();
+		else
+			pTasDeCartesColorees.c2pShowNotEmpilable();
 	}
 	
 	public void p2cDragExit(CCarte cc) {

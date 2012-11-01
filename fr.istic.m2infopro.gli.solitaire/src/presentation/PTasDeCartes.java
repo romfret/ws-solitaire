@@ -17,7 +17,12 @@ import controler.CTasDeCartes;
 public class PTasDeCartes extends JPanel implements Transferable {
 
 	private static final long serialVersionUID = 8538693189076549058L;
+	
+	// Attributs de Transferable
+	public static DataFlavor FLAVOR = new DataFlavor(DataFlavor.javaJVMLocalObjectMimeType, "PTasDeCartes Local");
+	private static DataFlavor[] FLAVORS = new DataFlavor[] {FLAVOR};
 
+	
 	private CTasDeCartes cTasDeCartes;
 	private int dx;
 	private int dy;
@@ -68,19 +73,23 @@ public class PTasDeCartes extends JPanel implements Transferable {
 	@Override
 	public Object getTransferData(DataFlavor flavor)
 			throws UnsupportedFlavorException, IOException {
+		
+		if (!flavor.equals(FLAVOR)) {
+			System.out.println("PAS LE BON FLAVOR !!!!");
+			throw new UnsupportedFlavorException(flavor);
+		}
+		
 		return this;
 	}
 
 	@Override
 	public DataFlavor[] getTransferDataFlavors() {
-		return new DataFlavor[] {new DataFlavor(getClass(), null)};
-//		return new DataFlavor[0];
+		return FLAVORS;
 	}
 
 	@Override
 	public boolean isDataFlavorSupported(DataFlavor flavor) {
-		return true;
-//		return false;
+		return flavor.equals(FLAVOR);
 	}
 
 }
