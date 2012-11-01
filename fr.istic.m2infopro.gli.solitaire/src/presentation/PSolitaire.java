@@ -3,10 +3,9 @@ package presentation;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.WindowConstants;
 
 import controler.CSolitaire;
 
@@ -17,18 +16,20 @@ public class PSolitaire extends JPanel {
 	private PSabot pSabot;
 	private int i = 0;
 	private JPanel panels[];
+	private JPanel panelTDCC;
 	
 	public PSolitaire(CSolitaire cSolitaire) {
 		this.setLayout(new BorderLayout());
 		
 		JPanel panelColonnes = getPanelColonnes();
 		this.add(panelColonnes, BorderLayout.WEST);
+
 	}
 
 	private JPanel getPanelColonnes() {
 		JPanel panelColonnes = new JPanel();
-		panels = new JPanel[7];
-		for(int i=0; i<7; i++){
+		panels = new JPanel[8];
+		for(int i=0; i<8; i++){
 			panels[i] = new JPanel();
 			System.out.println("panel " + i + " = " + Integer.toString(PCarte.largeur+20) + " et " + Integer.toString(this.getHeight()-20) );
 			
@@ -50,8 +51,7 @@ public class PSolitaire extends JPanel {
 	}
 
 	public void addTasDeCartesColorees(PTasDeCartesColorees pTdcc) {
-		// TODO Auto-generated method stub
-		
+		panels[7].add(pTdcc);
 	}
 
 	public void addPColonne(PColonne presentation) {

@@ -36,7 +36,7 @@ public class CSolitaire extends Solitaire {
 
 		for (TasDeCartesColorees tdcc : this.pilesColorees) {
 			PTasDeCartesColorees pTdcc = ((CTasDeCartesColorees) tdcc).getPresentation();
-			//pSolitaire.addTasDeCartesColorees(pTdcc);
+			pSolitaire.addTasDeCartesColorees(pTdcc);
 		}
 
 		for (Colonne c : this.pilesAlternees) {
@@ -53,7 +53,7 @@ public class CSolitaire extends Solitaire {
 		JFrame frame = new JFrame("Test CSolitaire");
 		frame.getContentPane().add(solitaire.getPresentation());
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(800, 600);
+		frame.setSize(830, 600);
 		frame.setResizable(false);
 		frame.setVisible(true);
 

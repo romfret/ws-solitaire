@@ -60,7 +60,6 @@ public class PSabot extends JPanel {
 		visibles.setDxDy(25, 0);
 		
 		this.activerRetournerCarte();
-		//this.desactiverRetournerCarte();
 		
 		// init DnD listener, peut etre fait dans une autre class
 		
