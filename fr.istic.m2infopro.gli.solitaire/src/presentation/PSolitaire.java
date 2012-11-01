@@ -33,10 +33,17 @@ public class PSolitaire extends JPanel {
 			panels[i] = new JPanel();
 			System.out.println("panel " + i + " = " + Integer.toString(PCarte.largeur+20) + " et " + Integer.toString(this.getHeight()-20) );
 			
-			panels[i].setSize(PCarte.largeur+20, 800);
+			if(i!=7){
+				panels[i].setSize(PCarte.largeur+20, 550);
+				Color colr = new Color(51,153,204);
+				panels[i].setBackground(colr);
+			}else{
+				panels[i].setSize(PCarte.largeur+20, 430);
+				panels[i].setBackground(Color.darkGray);
+			}
+			
 			panels[i].setPreferredSize(panels[i].getSize());
 			
-			panels[i].setBackground(Color.blue);
 
 			panelColonnes.add(panels[i]);
 		}

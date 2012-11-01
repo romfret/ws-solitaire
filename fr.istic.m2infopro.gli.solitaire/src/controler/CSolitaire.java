@@ -53,7 +53,7 @@ public class CSolitaire extends Solitaire {
 		JFrame frame = new JFrame("Test CSolitaire");
 		frame.getContentPane().add(solitaire.getPresentation());
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(830, 600);
+		frame.setSize(830, 700);
 		frame.setResizable(false);
 		frame.setVisible(true);
 

@@ -45,6 +45,7 @@ public class CTasDeCartesAlternees extends TasDeCartesAlternees {
 			super.depiler();
 			pTasDeCartesAlternees.depiler(c.getPresentation());
 		}
+		pTasDeCartesAlternees.repaint();
 	}
 	
 	public PTasDeCartesAlternees getPresentation() {
