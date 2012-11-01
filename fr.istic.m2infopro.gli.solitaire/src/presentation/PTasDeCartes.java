@@ -73,14 +73,14 @@ public class PTasDeCartes extends JPanel implements Transferable {
 
 	@Override
 	public DataFlavor[] getTransferDataFlavors() {
-//		return new DataFlavor[] {new DataFlavor(getClass(), null)};
-		return new DataFlavor[0];
+		return new DataFlavor[] {new DataFlavor(getClass(), null)};
+//		return new DataFlavor[0];
 	}
 
 	@Override
 	public boolean isDataFlavorSupported(DataFlavor flavor) {
-//		return true;
-		return false;
+		return true;
+//		return false;
 	}
 
 }

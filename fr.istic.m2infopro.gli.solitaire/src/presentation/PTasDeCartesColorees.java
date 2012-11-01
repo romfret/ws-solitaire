@@ -1,11 +1,13 @@
 package presentation;
 
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DropTarget;
 import java.awt.dnd.DropTargetDragEvent;
 import java.awt.dnd.DropTargetDropEvent;
 import java.awt.dnd.DropTargetEvent;
 import java.awt.dnd.DropTargetListener;
+import java.io.IOException;
 
 import javax.swing.JPanel;
 
@@ -83,13 +85,27 @@ public class PTasDeCartesColorees extends JPanel {
 
 	// DnD
 	
-	public void dragEnter(DropTargetEvent e) {
+	public void dragEnter(DropTargetDragEvent e) {
 		System.out.println("PTDCC.dragEnter");
 		
-		CTasDeCartes ctdc = ((PTasDeCartes)e.getSource()).getControle();
+		
+		PTasDeCartes ptdc = null;
+		try {
+			System.out.println("PTDCC.dragEnter -> in try 1");
+			ptdc = (PTasDeCartes) e.getTransferable().getTransferData(null);
+			System.out.println("PTDCC.dragEnter -> out try 1");
+		} catch (UnsupportedFlavorException e2) {
+			e2.printStackTrace();
+		} catch (IOException e2) {
+			e2.printStackTrace();
+		}
+		
+		CTasDeCartes ctdc = ptdc.getControle();
 		
 		try {
+			System.out.println("PTDCC.dragEnter -> in try 2");
 			pcDrop = ((CCarte)ctdc.getSommet()).getPresentation();
+			System.out.println("PTDCC.dragEnter -> out try 2");
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
@@ -106,7 +122,7 @@ public class PTasDeCartesColorees extends JPanel {
 	}
 
 	public void drop(DropTargetDropEvent e) {
-		System.out.println("PTDCC.dragExit");
+		System.out.println("PTDCC.drop");
 		
 		cTasDeCartesColorees.p2cDrop(pcDrop.getControle());
 		theFinalEvent = e;
