@@ -51,6 +51,31 @@ public class CTasDeCartesColorees extends TasDeCartesColorees {
 	public PTasDeCartesColorees getPresentation() {
 		return pTasDeCartesColorees;
 	}
+	
+	
+	// DnD
+	
+	
+	public void p2cDragEnter(CCarte cc) {
+		if(isEmpilable(cc))
+			pTasDeCartesColorees.c2pShowEmpilable();
+		else
+			pTasDeCartesColorees.c2pShowNotEmpilable();
+	}
+	
+	public void p2cDragExit(CCarte cc) {
+		pTasDeCartesColorees.c2pShowNeutral();
+	}
+	
+	public void p2cDrop(CCarte cc) {
+		if(isEmpilable(cc)) {
+			empiler(cc);
+			pTasDeCartesColorees.c2pFinDnDOK();
+		}
+		else {
+			pTasDeCartesColorees.c2pFinDnDKO();
+		}
+	}
 
 	/**
 	 * programme de test : � d�placer dans une classe d�di�e aux tests
