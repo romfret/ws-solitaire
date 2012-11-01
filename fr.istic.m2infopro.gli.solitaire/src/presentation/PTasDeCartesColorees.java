@@ -1,5 +1,6 @@
 package presentation;
 
+import java.awt.Color;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DropTarget;
@@ -12,7 +13,6 @@ import java.io.IOException;
 import javax.swing.JPanel;
 
 import controler.CCarte;
-import controler.CTasDeCartes;
 import controler.CTasDeCartesColorees;
 
 public class PTasDeCartesColorees extends JPanel {
@@ -34,6 +34,7 @@ public class PTasDeCartesColorees extends JPanel {
 	public PTasDeCartesColorees(CTasDeCartesColorees cTasDeCartesColorees) {
 		super();
 		this.cTasDeCartesColorees = cTasDeCartesColorees;
+		setBackground(new Color(204, 153, 255));
 		
 		// Permet d'empiler les cartes selon nos positions
 		setLayout(null);
@@ -89,30 +90,31 @@ public class PTasDeCartesColorees extends JPanel {
 		System.out.println("PTDCC.dragEnter");
 		
 		
-		PTasDeCartes ptdc = null;
-		try {
-			System.out.println("PTDCC.dragEnter -> in try 1");
-			ptdc = (PTasDeCartes) e.getTransferable().getTransferData(null);
-			System.out.println("PTDCC.dragEnter -> out try 1");
-		} catch (UnsupportedFlavorException e2) {
-			e2.printStackTrace();
-		} catch (IOException e2) {
-			e2.printStackTrace();
-		}
-		
-		CTasDeCartes ctdc = ptdc.getControle();
-		
-		try {
-			System.out.println("PTDCC.dragEnter -> in try 2");
-			pcDrop = ((CCarte)ctdc.getSommet()).getPresentation();
-			System.out.println("PTDCC.dragEnter -> out try 2");
-		} catch (Exception e1) {
-			e1.printStackTrace();
-		}
-		
-		System.out.println("CCarte : " + pcDrop.getControle().toString());
-		
-		cTasDeCartesColorees.p2cDragEnter(pcDrop.getControle());
+//		PTasDeCartes ptdc = null;
+//		try {
+//			System.out.println("PTDCC.dragEnter -> in try 1");
+//			ptdc = (PTasDeCartes) e.getTransferable().getTransferData(null);
+//			System.out.println("PTDCC.dragEnter -> out try 1");
+//		} catch (UnsupportedFlavorException e2) {
+//			e2.printStackTrace();
+//		} catch (IOException e2) {
+//			e2.printStackTrace();
+//		}
+//		
+//		CTasDeCartes ctdc = ptdc.getControle();
+//		
+//		try {
+//			System.out.println("PTDCC.dragEnter -> in try 2");
+//			pcDrop = ((CCarte)ctdc.getSommet()).getPresentation();
+//			System.out.println("PTDCC.dragEnter -> out try 2");
+//		} catch (Exception e1) {
+//			e1.printStackTrace();
+//		}
+//		
+//		System.out.println("CCarte : " + pcDrop.getControle().toString());
+//		
+//		cTasDeCartesColorees.p2cDragEnter(pcDrop.getControle());
+		cTasDeCartesColorees.p2cDragEnter(new CCarte(1, 1));
 	}
 
 	public void dragExit(DropTargetEvent e) {
@@ -123,6 +125,15 @@ public class PTasDeCartesColorees extends JPanel {
 
 	public void drop(DropTargetDropEvent e) {
 		System.out.println("PTDCC.drop");
+		
+		try {
+			System.out.println("PTDCC.drop -> getTransferable() : " + ((PTasDeCartes)e.getTransferable().getTransferData(null)).getControle().toString());
+		} catch (UnsupportedFlavorException e1) {
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		
 		
 		cTasDeCartesColorees.p2cDrop(pcDrop.getControle());
 		theFinalEvent = e;
