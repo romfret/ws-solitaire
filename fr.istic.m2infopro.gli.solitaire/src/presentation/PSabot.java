@@ -98,7 +98,7 @@ public class PSabot extends JPanel {
 
 	
 	public void dragGestureRecognized(DragGestureEvent e) {
-		System.out.println("dragGestureRecognized");
+		System.out.println("PSabot.dragGestureRecognized");
 		CCarte cc;
 		PCarte pc;
 		theInitialEvent = e;
@@ -108,8 +108,7 @@ public class PSabot extends JPanel {
 			
 			cc = pc.getControle();
 			
-			System.out.println("PCarte : " + pc.toString());
-			System.out.println("CCarte : " + cc.toString());
+			System.out.println("PSabot -> CCarte : " + cc.toString());
 			
 			// C'est le controle qui gere lui meme si cc est null apres que
 			// l'utilisateur est pas selectionne la bonne carte
@@ -120,7 +119,7 @@ public class PSabot extends JPanel {
 	}
 
 	public void c2pDebutDnDOK(PTasDeCartes pTasDeCartes) throws UnsupportedFlavorException, IOException {
-		System.out.println("c2pDebutDnDOK");
+		System.out.println("PSabot.c2pDebutDnDOK");
 		
 		
 		myDragSourceMotionListener.setCurrentMovedPTasDeCarte(pTasDeCartes); // Pour le deplacement graphique de la carte
@@ -135,7 +134,7 @@ public class PSabot extends JPanel {
 	
 	
 	public void dragDropEnd(DragSourceDropEvent e) {
-		System.out.println("dragDropEnd");
+		System.out.println("PSabot.dragDropEnd");
 		
 		DragSourceContext dsc = (DragSourceContext) e.getSource();
 		
@@ -160,14 +159,14 @@ public class PSabot extends JPanel {
 	}
 
 	public void c2pDebutDnDKO() {
-		System.out.println("c2pDebutDnDKO : Le drag and drop n'a pas fonctionné");
+		System.out.println("PSabot.c2pDebutDnDKO : Le drag and drop n'a pas fonctionné");
 		
 		// S'il y avait besoin de faire un traitement sur un plantage du DnD
 		// Ici, il n'y a pas besoin de traitement en utilisanat AWT
 	}
 
 	public void c2pDebutDnDNull() {
-		System.out.println("c2pDebutDnDNull : La PCarte est nulle");
+		System.out.println("PSabot.c2pDebutDnDNull : La PCarte est nulle");
 		
 		// S'il y avait besoin de faire un traitement sur un plantage du DnD
 		// Ici, il n'y a pas besoin de traitement en utilisanat AWT
