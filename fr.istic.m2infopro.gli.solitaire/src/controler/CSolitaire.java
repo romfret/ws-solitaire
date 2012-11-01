@@ -1,18 +1,23 @@
 package controler;
 
+import presentation.PSabot;
 import presentation.PSolitaire;
 import solitaire.application.Solitaire;
-import solitaire.application.Usine;
 
 public class CSolitaire extends Solitaire {
 
 	private PSolitaire pSolitaire;
+	private PSabot pSabot;
 	
-	public CSolitaire(String arg0, Usine arg1) {
-		super(arg0, arg1);
+	
+	public CSolitaire(String arg0, CUsine u) {
+		super(arg0, u);
+		initialiser();
 		
-		pSolitaire = new PSolitaire("PSolitaire", arg1);	
+		pSabot = ((CSabot)this.sabot).getPresentation();
 		
+		pSolitaire = new PSolitaire("PSolitaire", u);	
+		pSolitaire.addPSabot(pSabot);
 	}
 
 	public PSolitaire getPresentation(){
