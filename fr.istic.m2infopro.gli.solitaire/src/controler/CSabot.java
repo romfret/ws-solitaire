@@ -18,11 +18,6 @@ public class CSabot extends Sabot {
 
 	public CSabot(String nom, CUsine u) {
 		super(nom, u);
-
-		PTasDeCartes pVisibles = ((CTasDeCartes) visibles).getPresentation();
-		PTasDeCartes pCachees = ((CTasDeCartes) cachees).getPresentation();
-
-		pSabot = new PSabot(pCachees, pVisibles);
 	}
 
 	public void setReverse(Tas t) {
@@ -60,6 +55,10 @@ public class CSabot extends Sabot {
 	}
 
 	public PSabot getPresentation() {
+		PTasDeCartes pVisibles = ((CTasDeCartes) visibles).getPresentation();
+		PTasDeCartes pCachees = ((CTasDeCartes) cachees).getPresentation();
+
+		pSabot = new PSabot(this, pCachees, pVisibles);
 		return pSabot;
 	}
 
@@ -132,7 +131,6 @@ public class CSabot extends Sabot {
 		cc6.setFaceVisible(false);
 
 		PSabot pSabot = cSabot.getPresentation();
-		pSabot.setcSabot(cSabot);
 
 		Tas tas = new TasDeCartes("tas1", u);
 		tas.empiler(cc);

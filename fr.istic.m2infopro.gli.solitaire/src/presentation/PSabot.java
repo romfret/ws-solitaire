@@ -46,10 +46,11 @@ public class PSabot extends JPanel {
 	 * @param cachees
 	 * @param visibles
 	 */
-	public PSabot(PTasDeCartes cachees, PTasDeCartes visibles) {
+	public PSabot(CSabot cSabot, PTasDeCartes cachees, PTasDeCartes visibles) {
 		super();
 		this.cachees = cachees;
 		this.visibles = visibles;
+		this.cSabot = cSabot;
 		rcl = new RetournerCartesListener();
 		rtl = new RetournerTasListener();
 
@@ -58,6 +59,8 @@ public class PSabot extends JPanel {
 		add(visibles);
 		visibles.setDxDy(25, 0);
 		
+		this.activerRetournerCarte();
+		//this.desactiverRetournerCarte();
 		
 		// init DnD listener, peut etre fait dans une autre class
 		
@@ -72,10 +75,6 @@ public class PSabot extends JPanel {
 		dragSource.addDragSourceMotionListener((DragSourceMotionListener) myDragSourceMotionListener);
 
 
-	}
-
-	public void setcSabot(CSabot cSabot) {
-		this.cSabot = cSabot;
 	}
 
 	public void activerRetournerTas() {

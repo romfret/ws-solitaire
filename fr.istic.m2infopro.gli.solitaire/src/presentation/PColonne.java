@@ -1,5 +1,7 @@
 package presentation;
 
+import java.awt.GridLayout;
+
 import javax.swing.JPanel;
 
 
@@ -19,6 +21,7 @@ public class PColonne extends JPanel {
 		this.cachees = cachees;
 		this.visibles = visibles;
 		
+		this.setLayout(new GridLayout(2,1));
 		
 		add(cachees);
 		cachees.setDxDy(0, 10);
