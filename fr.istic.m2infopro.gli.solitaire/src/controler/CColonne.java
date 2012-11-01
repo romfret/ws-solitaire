@@ -9,10 +9,10 @@ import javax.swing.WindowConstants;
 import presentation.PColonne;
 import presentation.PTasDeCartes;
 import presentation.PTasDeCartesAlternees;
+import solitaire.application.Carte;
 import solitaire.application.Colonne;
 import solitaire.application.Tas;
 import solitaire.application.TasDeCartes;
-import solitaire.application.TasDeCartesAlternees;
 
 public class CColonne extends Colonne {
 	
@@ -27,9 +27,17 @@ public class CColonne extends Colonne {
 		pColonne = new PColonne(pCachees, pVisibles);
 	}
 	
+	
 	public PColonne getPresentation() {
 		return pColonne;
 	}
+	
+	@Override
+	public void empiler(Carte carte) {
+		super.empiler(carte);
+		pColonne.updateUI();
+	}
+	
 	
 	/**
 	 * programme de test : � d�placer dans une classe d�di�e aux tests

@@ -2,6 +2,7 @@ package presentation;
 
 import java.awt.GridLayout;
 
+import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
 
@@ -21,13 +22,13 @@ public class PColonne extends JPanel {
 		this.cachees = cachees;
 		this.visibles = visibles;
 		
-		this.setLayout(new GridLayout(2,1));
+		
+		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		
 		add(cachees);
 		cachees.setDxDy(0, 10);
 		add(visibles);
 		visibles.setDxDy(0, 30);
-		
 	}
 
 }

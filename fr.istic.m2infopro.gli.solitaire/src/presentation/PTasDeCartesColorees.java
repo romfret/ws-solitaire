@@ -27,6 +27,7 @@ public class PTasDeCartesColorees extends JPanel {
 	public void empiler(PCarte c) {
 		c.setLocation(xCourant, yCourant);
 		add(c, 0);
+		this.repaint();
 	}
 
 	public void depiler(PCarte c) {
