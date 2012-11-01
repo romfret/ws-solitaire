@@ -52,6 +52,7 @@ public class CSabot extends Sabot {
 		super.depiler();
 		if (!isCarteRetournable() && !isRetournable())
 			pSabot.desactiverRetournerTas();
+		pSabot.repaint();
 	}
 
 	public PSabot getPresentation() {
