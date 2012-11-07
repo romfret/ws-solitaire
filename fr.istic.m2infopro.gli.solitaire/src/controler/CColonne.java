@@ -24,7 +24,7 @@ public class CColonne extends Colonne {
 		PTasDeCartesAlternees pVisibles = ((CTasDeCartesAlternees)visibles).getPresentation();
 		PTasDeCartes pCachees = ((CTasDeCartes)cachees).getPresentation();
 	
-		pColonne = new PColonne(pCachees, pVisibles);
+		pColonne = new PColonne(this, pCachees, pVisibles);
 	}
 	
 	

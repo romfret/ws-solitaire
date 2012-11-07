@@ -11,6 +11,7 @@ public class PTasDeCartesAlternees extends JPanel {
 	private int xCourant;
 	private int yCourant;
 
+	
 	public PTasDeCartesAlternees() {
 		super();
 		
@@ -43,5 +44,7 @@ public class PTasDeCartesAlternees extends JPanel {
 		this.dx = dx;
 		this.dy = dy;
 	}
+	
+	
 
 }
