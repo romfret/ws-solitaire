@@ -38,6 +38,7 @@ public class PSabot extends JPanel {
 	private DragSource dragSource;
 	private MyDragSourceMotionListener dragSourceMotionListener;
 	private DragSourceListener dragSourceListener;
+	private PTasDeCartes currentMovedPTasDeCarte;
 
 	/**
 	 * Le constructeur
@@ -155,8 +156,16 @@ public class PSabot extends JPanel {
 		System.out.println("PSabot.c2pDebutDnDOK");
 		System.out.println("  PSabot -> " + pTasDeCartes.getControle().toString());
 		
+		
+		currentMovedPTasDeCarte = pTasDeCartes;
+		
+		
+		// Encrage du pTasDeCartes, au premier plan, dans le panel root
+		// (rend visible le pTasDeCartes durant le deplacement)
+		getRootPane().add(currentMovedPTasDeCarte, 0);
+		
 		// Pour le deplacement graphique de la carte
-		dragSourceMotionListener.setCurrentMovedPTasDeCarte(pTasDeCartes);
+		dragSourceMotionListener.setCurrentMovedPTasDeCarte(currentMovedPTasDeCarte);
 		
 		// Lancement du drag
 		dragSource.startDrag(theInitialEvent, DragSource.DefaultMoveDrop, pTasDeCartes, dragSourceListener);
@@ -190,8 +199,12 @@ public class PSabot extends JPanel {
 			e1.printStackTrace();
 		}
 		
-		// Permet de re-afficher une carte draguee dont le drop n'aurait pas abouti 
-		repaint();
+		// De-encrage du pTasDeCartes du root panel
+		// (supprime la visibillite du pTasDeCartes a la fin du deplacement)
+		getRootPane().remove(currentMovedPTasDeCarte);
+		
+		// Permet de rafraichir tout l'affichage du solitaire
+		getRootPane().repaint();
 	}
 
 	public void c2pDebutDnDKO() {
