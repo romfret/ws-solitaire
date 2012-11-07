@@ -130,37 +130,30 @@ public class PTasDeCartesColorees extends JPanel {
 	}
 
 	public void c2pFinDnDOK() {
-		System.out.println("PTDCC.c2pFinDnDOK");
-		
 		theFinalEvent.acceptDrop(DnDConstants.ACTION_MOVE);
 		theFinalEvent.getDropTargetContext().dropComplete(true);
+		this.setBackground(new Color(204, 153, 255));
 	}
 
 	public void c2pFinDnDKO() {
-		// TODO
 		// Gestion du foirage de la fin du DnD
-		System.out.println("PTDCC.c2pFinDnDKO");
+		this.setBackground(new Color(204, 153, 255));
 	}
 
 	public void c2pShowEmpilable() {
-		// TODO
-		// Afficher un effet visuel sur pcDrop pour informer le joueur que la
-		// carte peut etre emiplee
-		System.out.println("PTDCC.c2pShowEmpilable");
+		this.setBackground(Color.green);
 	}
 
 	public void c2pShowNotEmpilable() {
-		// TODO
 		// Afficher un effet visuel sur pcDrop pour informer le joueur que la
 		// carte ne peut pas etre empilee.
-		System.out.println("PTDCC.c2pShowNotEmpilable");
+		this.setBackground(Color.red);
 	}
 
 	public void c2pShowNeutral() {
-		// TODO
 		// Affiche la carte de facon normale (contrairement au changement de
 		// couleur lors de la selection)
-		System.out.println("PTDCC.c2pShowNeutral");
+		this.setBackground(new Color(204, 153, 255));
 	}
 
 }
