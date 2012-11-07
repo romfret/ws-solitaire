@@ -1,6 +1,7 @@
 package presentation;
 
 import java.awt.Cursor;
+import java.awt.Point;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DragGestureEvent;
@@ -39,6 +40,7 @@ public class PSabot extends JPanel {
 	private MyDragSourceMotionListener dragSourceMotionListener;
 	private DragSourceListener dragSourceListener;
 	private PTasDeCartes currentMovedPTasDeCarte;
+//	private Point initialCurrentMovedPTasDeCartesPosition;
 
 	/**
 	 * Le constructeur
@@ -140,6 +142,10 @@ public class PSabot extends JPanel {
 			// Recuperation de la carte sous le curseur
 			pc = (PCarte) visibles.getComponentAt(e.getDragOrigin());
 			
+//			// Recuperation de la position avant drag de la carte
+//			// Permettra de setter la position initiale de currentMovedPTasDeCarte pour le deplacement.
+//			initialCurrentMovedPTasDeCartesPosition = pc.getLocation();
+			
 			cc = pc.getControle();
 			
 			System.out.println("    PSabot -> CCarte : " + cc.toString());
@@ -158,7 +164,7 @@ public class PSabot extends JPanel {
 		
 		
 		currentMovedPTasDeCarte = pTasDeCartes;
-		
+//		currentMovedPTasDeCarte.setLocation(initialCurrentMovedPTasDeCartesPosition);
 		
 		// Encrage du pTasDeCartes, au premier plan, dans le panel root
 		// (rend visible le pTasDeCartes durant le deplacement)
@@ -166,6 +172,9 @@ public class PSabot extends JPanel {
 		
 		// Pour le deplacement graphique de la carte
 		dragSourceMotionListener.setCurrentMovedPTasDeCarte(currentMovedPTasDeCarte);
+		
+//		// Recuperation de la position du pointeur au debut du DnD pour le deplacement
+//		dragSourceMotionListener.setSelection(theInitialEvent.getDragOrigin());
 		
 		// Lancement du drag
 		dragSource.startDrag(theInitialEvent, DragSource.DefaultMoveDrop, pTasDeCartes, dragSourceListener);
