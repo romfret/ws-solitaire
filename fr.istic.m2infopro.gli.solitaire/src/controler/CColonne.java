@@ -69,6 +69,46 @@ public class CColonne extends Colonne {
 		}
 	}
 	
+	public void p2cDebutDnD(CCarte cc) throws Exception {
+		if (cc != null) {
+			//if (cc == getSommet()) {
+				
+				// Instanciation du Tas de carte transferable contenant la carte a transferer
+				CTasDeCartes ctdc = new CTasDeCartes("Drag", new CUsine());
+				
+				CCarte c = null;
+				
+				while(c!=cc){
+					c = (CCarte) visibles.getSommet();
+					depiler();
+					ctdc.empiler(c);
+				} 
+				
+				
+				pColonne.c2pDebutDnDOK(ctdc.getPresentation());
+		//	} else {
+				//pColonne.c2pDebutDnDKO();
+				// + comptage des erreurs + reaction
+				// -> Au bout d'un certain nombre d'erreur, on peut envoyé un
+				// message explicite a l'utilisateur
+			//}
+		} else {
+			pColonne.c2pDebutDnDNull();
+			// + comptage des erreurs + reaction
+			// -> Au bout d'un certain nombre d'erreur, on peut envoyé un
+			// message explicite a l'utilisateur
+		}
+	}
+
+	public void p2cDragDropEnd(boolean success, CCarte cc) {
+		if (!success) {
+			System.out.println("CSabot.p2cDragDropEnd");
+			System.out.println("  CSabot -> CCarte : " + cc.toString());
+			empiler(cc);
+		}
+	}
+
+	
 	
 	/**
 	 * programme de test : � d�placer dans une classe d�di�e aux tests

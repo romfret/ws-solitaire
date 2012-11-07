@@ -4,6 +4,15 @@ import java.awt.Color;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.dnd.DnDConstants;
+import java.awt.dnd.DragGestureEvent;
+import java.awt.dnd.DragGestureListener;
+import java.awt.dnd.DragSource;
+import java.awt.dnd.DragSourceContext;
+import java.awt.dnd.DragSourceDragEvent;
+import java.awt.dnd.DragSourceDropEvent;
+import java.awt.dnd.DragSourceEvent;
+import java.awt.dnd.DragSourceListener;
+import java.awt.dnd.DragSourceMotionListener;
 import java.awt.dnd.DropTarget;
 import java.awt.dnd.DropTargetDragEvent;
 import java.awt.dnd.DropTargetDropEvent;
@@ -17,7 +26,7 @@ import javax.swing.JPanel;
 import controler.CCarte;
 import controler.CColonne;
 import controler.CTasDeCartes;
-
+import dndListener.MyDragSourceMotionListener;
 
 public class PColonne extends JPanel {
 
@@ -26,22 +35,82 @@ public class PColonne extends JPanel {
 	private CColonne cColonne;
 	private DropTargetDropEvent theFinalEvent;
 	private PCarte pcDrop;
+	private DragSource dragSource;
+	private DragGestureEvent theInitialEvent;
+	private MyDragSourceMotionListener dragSourceMotionListener;
+	private DragSourceListener dragSourceListener;
 	
+	private PTasDeCartesAlternees visibles;
+	private PTasDeCartes cachees;
+	
+
 	/**
 	 * Le constructeur
+	 * 
 	 * @param cachees
 	 * @param visibles
 	 */
-	public PColonne(CColonne cColonne, PTasDeCartes cachees, PTasDeCartesAlternees visibles) {
+	public PColonne(CColonne cColonne, PTasDeCartes cachees,
+			PTasDeCartesAlternees visibles) {
 		super();
 		this.cColonne = cColonne;
+		this.visibles = visibles;
+		this.cachees = cachees;
 		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-		
+		// this.setSize(PCarte.largeur+20, 550);
+		// this.setPreferredSize(getSize());
+		this.setBackground(Color.BLUE);
+
 		add(cachees);
 		cachees.setDxDy(0, 10);
 		add(visibles);
 		visibles.setDxDy(0, 30);
-		
+
+		// DnD
+
+		dragSource = new DragSource();
+
+		dragSource.createDefaultDragGestureRecognizer(visibles,
+				DnDConstants.ACTION_MOVE, new DragGestureListener() {
+
+					@Override
+					public void dragGestureRecognized(DragGestureEvent arg0) {
+						PColonne.this.dragGestureRecognized(arg0);
+					}
+				});
+
+		dragSourceMotionListener = new MyDragSourceMotionListener();
+		dragSource
+				.addDragSourceMotionListener((DragSourceMotionListener) dragSourceMotionListener);
+
+		dragSourceListener = new DragSourceListener() {
+
+			@Override
+			public void dropActionChanged(DragSourceDragEvent arg0) {
+
+			}
+
+			@Override
+			public void dragOver(DragSourceDragEvent arg0) {
+
+			}
+
+			@Override
+			public void dragExit(DragSourceEvent arg0) {
+
+			}
+
+			@Override
+			public void dragEnter(DragSourceDragEvent arg0) {
+
+			}
+
+			@Override
+			public void dragDropEnd(DragSourceDropEvent arg0) {
+				PColonne.this.dragDropEnd(arg0);
+			}
+		};
+
 		// DnD
 		dropTarget = new DropTarget(this, new DropTargetListener() {
 
@@ -80,41 +149,90 @@ public class PColonne extends JPanel {
 		});
 	}
 	
-	public void dragEnter(DropTargetDragEvent e) throws Exception {
-		System.out.println("PTDCC.dragEnter");
+	public void dragGestureRecognized(DragGestureEvent e) {
+		System.out.println("\n");
+		System.out.println("PSabot.dragGestureRecognized");
 		
-		if(e.isDataFlavorSupported(PTasDeCartes.FLAVOR)) {
-			// Recuperation de l'objet transfere
-			Transferable transferable = e.getTransferable();
-			System.out.println("  Transferable : " + transferable);
+		
+		CCarte cc;
+		PCarte pc;
+		theInitialEvent = e;
+		try {
 			
-			// Recuperation de la carte passee via le DnD
-			PTasDeCartes ptdc = (PTasDeCartes) transferable.getTransferData(PTasDeCartes.FLAVOR);
-			CTasDeCartes ctdc = ptdc.getControle();
-			pcDrop = ((CCarte)ctdc.getSommet()).getPresentation();
+			// Recuperation de la carte sous le curseur
 			
-			System.out.println("  PTDCC -> CCarte : " + pcDrop.getControle().toString());
 			
-			cColonne.p2cDragEnter(pcDrop.getControle());
-		}
-		else {
-			System.err.println("  Transferable : N'est pas un objet PTasCeCartes");
+			pc = (PCarte) visibles.getComponentAt(e.getDragOrigin());
+			
+			
+			cc = pc.getControle();
+			
+			System.out.println("    PSabot -> CCarte : " + cc.toString());
+			
+			// C'est le controle qui gere lui meme si cc est null apres que
+			// l'utilisateur est pas selectionne la bonne carte
+			cColonne.p2cDebutDnD(cc);
+		} catch (Exception e1) {
+			e1.printStackTrace();
 		}
 	}
 	
-	public void dragExit(DropTargetEvent e) {
-		System.out.println("PTDCC.dragExit");
+	public void dragDropEnd(DragSourceDropEvent e) {
+		System.out.println("PSabot.dragDropEnd");
+		
+		// Recuperation du contexte du drag
+		DragSourceContext dsc = (DragSourceContext) e.getSource();
+		
+		PTasDeCartes ptdc = null;
+		try {
+			
+			// Recuperation de l'objet Transferable PTasDeCartes
+			ptdc = (PTasDeCartes) dsc.getTransferable().getTransferData(PTasDeCartes.FLAVOR);
+			
+			cColonne.p2cDragDropEnd(e.getDropSuccess(),
+					(CCarte) ptdc.getControle().getSommet());
+			
+		} catch (UnsupportedFlavorException e2) {
+			e2.printStackTrace();
+		} catch (IOException e2) {
+			e2.printStackTrace();
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		
+		// Permet de re-afficher une carte draguee dont le drop n'aurait pas abouti 
+		repaint();
+	}
 
+	public void dragEnter(DropTargetDragEvent e) throws Exception {
+		System.out.println("PTDCC.dragEnter");
+
+		if (e.isDataFlavorSupported(PTasDeCartes.FLAVOR)) {
+			// Recuperation de l'objet transfere
+			Transferable transferable = e.getTransferable();
+
+			// Recuperation de la carte passee via le DnD
+			PTasDeCartes ptdc = (PTasDeCartes) transferable
+					.getTransferData(PTasDeCartes.FLAVOR);
+			CTasDeCartes ctdc = ptdc.getControle();
+			pcDrop = ((CCarte) ctdc.getSommet()).getPresentation();
+
+			cColonne.p2cDragEnter(pcDrop.getControle());
+		} else {
+			System.err
+					.println("  Transferable : N'est pas un objet PTasCeCartes");
+		}
+	}
+
+	public void dragExit(DropTargetEvent e) {
 		cColonne.p2cDragExit(pcDrop.getControle());
 	}
 
 	public void drop(DropTargetDropEvent e) {
-		System.out.println("PTDCC.drop");
-		
 		theFinalEvent = e;
 		cColonne.p2cDrop(pcDrop.getControle());
 	}
-	
+
 	public void c2pFinDnDOK() {
 		theFinalEvent.acceptDrop(DnDConstants.ACTION_MOVE);
 		theFinalEvent.getDropTargetContext().dropComplete(true);
@@ -141,5 +259,35 @@ public class PColonne extends JPanel {
 		// couleur lors de la selection)
 		this.setBackground(new Color(204, 153, 255));
 	}
+	
+	public void c2pDebutDnDOK(PTasDeCartes pTasDeCartes) throws UnsupportedFlavorException, IOException {
+		System.out.println("PSabot.c2pDebutDnDOK");
+		System.out.println("  PSabot -> " + pTasDeCartes.getControle().toString());
+		
+		// Pour le deplacement graphique de la carte
+		dragSourceMotionListener.setCurrentMovedPTasDeCarte(pTasDeCartes);
+		
+		// Lancement du drag
+		dragSource.startDrag(theInitialEvent, DragSource.DefaultMoveDrop, pTasDeCartes, dragSourceListener);
+		
+		// startDrag -> fait a l'aide de la presentation sabot + donnee
+		// transferee (= pc) + event (= theInitialEvent)
+	}
+
+
+	public void c2pDebutDnDKO() {
+		System.out.println("PSabot.c2pDebutDnDKO : Le drag and drop n'a pas fonctionné");
+		
+		// S'il y avait besoin de faire un traitement sur un plantage du DnD
+		// Ici, il n'y a pas besoin de traitement en utilisanat AWT
+	}
+
+	public void c2pDebutDnDNull() {
+		System.out.println("PSabot.c2pDebutDnDNull : La PCarte est nulle");
+		
+		// S'il y avait besoin de faire un traitement sur un plantage du DnD
+		// Ici, il n'y a pas besoin de traitement en utilisanat AWT
+	}
+	
 
 }
