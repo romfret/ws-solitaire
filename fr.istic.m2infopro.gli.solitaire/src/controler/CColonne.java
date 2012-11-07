@@ -41,8 +41,6 @@ public class CColonne extends Colonne {
 	@Override
 	public void depiler() throws Exception {
 		super.depiler();
-		if(visibles.isVide())
-			this.retournerCarte();
 		pColonne.updateUI();
 	}
 	
