@@ -46,6 +46,29 @@ public class CColonne extends Colonne {
 		pColonne.updateUI();
 	}
 	
+	// DnD
+	
+	public void p2cDragEnter(CCarte cc) {
+		if(isEmpilable(cc))
+			pColonne.c2pShowEmpilable();
+		else
+			pColonne.c2pShowNotEmpilable();
+	}
+	
+	public void p2cDragExit(CCarte cc) {
+		pColonne.c2pShowNeutral();
+	}
+	
+	public void p2cDrop(CCarte cc) {
+		if(isEmpilable(cc)) {
+			empiler(cc);
+			pColonne.c2pFinDnDOK();
+		}
+		else {
+			pColonne.c2pFinDnDKO();
+		}
+	}
+	
 	
 	/**
 	 * programme de test : � d�placer dans une classe d�di�e aux tests
