@@ -216,7 +216,7 @@ public class PColonne extends JPanel {
 	}
 
 	public void dragEnter(DropTargetDragEvent e) throws Exception {
-		System.out.println("PTDCC.dragEnter");
+		System.out.println("PColonne.dragEnter");
 
 		if (e.isDataFlavorSupported(PTasDeCartes.FLAVOR)) {
 			// Recuperation de l'objet transfere
