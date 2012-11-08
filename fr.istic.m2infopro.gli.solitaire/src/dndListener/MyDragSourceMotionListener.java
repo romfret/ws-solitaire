@@ -9,32 +9,43 @@ import presentation.PTasDeCartes;
 public class MyDragSourceMotionListener implements DragSourceMotionListener {
 
 	private PTasDeCartes currentMovedPTasDeCarte;
-	private int xSelection;
-	private int ySelection;
-	
+	private int xFramePosition;
+	private int yFramePosition;
+	private int dx;
+	private int dy;
+
 	public void dragMouseMoved(DragSourceDragEvent dsde) {
-		// TODO
-		
-//		int dx = currentMovedPTasDeCarte.getX() - xSelection;
-//		int dy = currentMovedPTasDeCarte.getY() - ySelection;
-//		
-//		
-//		currentMovedPTasDeCarte.setLocation(1 + dx + dsde.getX(), 1 + dy + dsde.getY());
-		
-		
-		currentMovedPTasDeCarte.setLocation(1 + dsde.getX(), 1 + dsde.getY());
-		
-//		System.out.println("MyDragSourceMotionListener = " + currentMovedPTasDeCarte.getLocation());
+
+		currentMovedPTasDeCarte.setLocation(dsde.getX() - xFramePosition - dx,
+				dsde.getY() - yFramePosition - dy);
 	}
-	
+
+	/**
+	 * Initialilsation du PTasDeCartes subissant le DnD 
+	 */
 	public void setCurrentMovedPTasDeCarte(PTasDeCartes pTasDeCartes) {
 		this.currentMovedPTasDeCarte = pTasDeCartes;
 	}
 
+	/**
+	 * Initialise les differents parametres pour la gestion graphique du DnD
+	 * (deplacement).<p>
+	 * La variable <code>currentMovedPTasDeCarte</code> doit etre
+	 * initialisee en premier lieu.
+	 * 
+	 * @param framePosition
+	 *            : position de la frame principale de l'application
+	 * @param cursorPositionOnFrame
+	 *            : position du curseur de la souris par rapport au repere de la
+	 *            frame
+	 */
+	public void setSelection(Point framePosition, Point cursorPositionOnFrame) {
+		xFramePosition = framePosition.x;
+		yFramePosition = framePosition.y;
 
-	public void setSelection(Point position) {
-		this.xSelection = position.x;
-		this.ySelection = position.y;
+		// Coordonnes du curseur de la souris par rapport au PTasDeCartes
+		dx = cursorPositionOnFrame.x - currentMovedPTasDeCarte.getX();
+		dy = cursorPositionOnFrame.y - currentMovedPTasDeCarte.getY();
 	}
 
 }

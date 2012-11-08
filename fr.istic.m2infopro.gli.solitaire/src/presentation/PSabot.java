@@ -40,8 +40,10 @@ public class PSabot extends JPanel {
 	private MyDragSourceMotionListener dragSourceMotionListener;
 	private DragSourceListener dragSourceListener;
 	private PTasDeCartes currentMovedPTasDeCarte;
-//	private Point initialCurrentMovedPTasDeCartesPosition;
-
+//->
+	private Point initialCurrentMovedPTasDeCartesPosition;
+//-<
+	
 	/**
 	 * Le constructeur
 	 * 
@@ -54,7 +56,9 @@ public class PSabot extends JPanel {
 		this.visibles = visibles;
 		this.cSabot = cSabot;
 		rcl = new RetournerCartesListener();
-		rtl = new RetournerTasListener();
+		rtl = new RetournerTasListener();		// Recuperation de la position avant drag de la carte
+		// Permettra de setter la position initiale de currentMovedPTasDeCarte pour le deplacement.
+		
 
 		add(cachees);
 		cachees.setDxDy(0, 0);
@@ -142,9 +146,15 @@ public class PSabot extends JPanel {
 			// Recuperation de la carte sous le curseur
 			pc = (PCarte) visibles.getComponentAt(e.getDragOrigin());
 			
-//			// Recuperation de la position avant drag de la carte
-//			// Permettra de setter la position initiale de currentMovedPTasDeCarte pour le deplacement.
-//			initialCurrentMovedPTasDeCartesPosition = pc.getLocation();
+			
+//->			
+			// Recuperation de la position avant drag de la carte
+			// Permettra de setter la position initiale de currentMovedPTasDeCarte pour le deplacement.
+			initialCurrentMovedPTasDeCartesPosition = pc.getLocation();
+//-<		
+			
+			
+			
 			
 			cc = pc.getControle();
 			
@@ -153,6 +163,8 @@ public class PSabot extends JPanel {
 			// C'est le controle qui gere lui meme si cc est null apres que
 			// l'utilisateur est pas selectionne la bonne carte
 			cSabot.p2cDebutDnD(cc);
+			
+			
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
@@ -164,17 +176,24 @@ public class PSabot extends JPanel {
 		
 		
 		currentMovedPTasDeCarte = pTasDeCartes;
-//		currentMovedPTasDeCarte.setLocation(initialCurrentMovedPTasDeCartesPosition);
+//->	
+		// Initialisation de la position du PTasDeCartes destine au transfert avec la position de la carte avant le DnD 
+		currentMovedPTasDeCarte.setLocation(initialCurrentMovedPTasDeCartesPosition);
+//-<
 		
-		// Encrage du pTasDeCartes, au premier plan, dans le panel root
+		// Encrage du PTasDeCartes, au premier plan, dans le panel root
 		// (rend visible le pTasDeCartes durant le deplacement)
 		getRootPane().add(currentMovedPTasDeCarte, 0);
 		
-		// Pour le deplacement graphique de la carte
-		dragSourceMotionListener.setCurrentMovedPTasDeCarte(currentMovedPTasDeCarte);
 		
-//		// Recuperation de la position du pointeur au debut du DnD pour le deplacement
-//		dragSourceMotionListener.setSelection(theInitialEvent.getDragOrigin());
+		// Gestion du deplacement du PTasDeCartes en meme temps que la souris
+		dragSourceMotionListener.setCurrentMovedPTasDeCarte(currentMovedPTasDeCarte);
+
+//->		
+		// Initialisation de toutes les coordonnees relatives au deplacement graphique du PTasDeCartes
+		dragSourceMotionListener.setSelection(getRootPane().getLocationOnScreen(), theInitialEvent.getDragOrigin());
+//-<	
+		
 		
 		// Lancement du drag
 		dragSource.startDrag(theInitialEvent, DragSource.DefaultMoveDrop, pTasDeCartes, dragSourceListener);
@@ -182,8 +201,6 @@ public class PSabot extends JPanel {
 		// startDrag -> fait a l'aide de la presentation sabot + donnee
 		// transferee (= pc) + event (= theInitialEvent)
 	}
-
-	
 	
 	public void dragDropEnd(DragSourceDropEvent e) {
 		System.out.println("PSabot.dragDropEnd");
@@ -208,9 +225,11 @@ public class PSabot extends JPanel {
 			e1.printStackTrace();
 		}
 		
+//->
 		// De-encrage du pTasDeCartes du root panel
-		// (supprime la visibillite du pTasDeCartes a la fin du deplacement)
+		// (supprime la visibillite du PTasDeCartes a la fin du deplacement)
 		getRootPane().remove(currentMovedPTasDeCarte);
+//-<
 		
 		// Permet de rafraichir tout l'affichage du solitaire
 		getRootPane().repaint();
@@ -229,7 +248,6 @@ public class PSabot extends JPanel {
 		// S'il y avait besoin de faire un traitement sur un plantage du DnD
 		// Ici, il n'y a pas besoin de traitement en utilisanat AWT
 	}
-	
 	
 
 	public class RetournerTasListener implements MouseListener {
