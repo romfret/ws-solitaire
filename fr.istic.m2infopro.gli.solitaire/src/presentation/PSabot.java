@@ -39,10 +39,9 @@ public class PSabot extends JPanel {
 	private DragSource dragSource;
 	private MyDragSourceMotionListener dragSourceMotionListener;
 	private DragSourceListener dragSourceListener;
+	
 	private PTasDeCartes currentMovedPTasDeCarte;
-//->
 	private Point initialCurrentMovedPTasDeCartesPosition;
-//-<
 	
 	/**
 	 * Le constructeur
@@ -146,14 +145,10 @@ public class PSabot extends JPanel {
 			// Recuperation de la carte sous le curseur
 			pc = (PCarte) visibles.getComponentAt(e.getDragOrigin());
 			
-			
-//->			
+						
 			// Recuperation de la position avant drag de la carte
 			// Permettra de setter la position initiale de currentMovedPTasDeCarte pour le deplacement.
-			initialCurrentMovedPTasDeCartesPosition = pc.getLocation();
-//-<		
-			
-			
+			initialCurrentMovedPTasDeCartesPosition = pc.getLocation();			
 			
 			
 			cc = pc.getControle();
@@ -176,10 +171,11 @@ public class PSabot extends JPanel {
 		
 		
 		currentMovedPTasDeCarte = pTasDeCartes;
-//->	
+
+	
 		// Initialisation de la position du PTasDeCartes destine au transfert avec la position de la carte avant le DnD 
 		currentMovedPTasDeCarte.setLocation(initialCurrentMovedPTasDeCartesPosition);
-//-<
+
 		
 		// Encrage du PTasDeCartes, au premier plan, dans le panel root
 		// (rend visible le pTasDeCartes durant le deplacement)
@@ -189,10 +185,9 @@ public class PSabot extends JPanel {
 		// Gestion du deplacement du PTasDeCartes en meme temps que la souris
 		dragSourceMotionListener.setCurrentMovedPTasDeCarte(currentMovedPTasDeCarte);
 
-//->		
+		
 		// Initialisation de toutes les coordonnees relatives au deplacement graphique du PTasDeCartes
-		dragSourceMotionListener.setSelection(getRootPane().getLocationOnScreen(), theInitialEvent.getDragOrigin());
-//-<	
+		dragSourceMotionListener.setSelection(getRootPane().getLocationOnScreen(), theInitialEvent.getDragOrigin());	
 		
 		
 		// Lancement du drag
@@ -225,13 +220,13 @@ public class PSabot extends JPanel {
 			e1.printStackTrace();
 		}
 		
-//->
+		
 		// De-encrage du pTasDeCartes du root panel
 		// (supprime la visibillite du PTasDeCartes a la fin du deplacement)
 		getRootPane().remove(currentMovedPTasDeCarte);
-//-<
 		
-		// Permet de rafraichir tout l'affichage du solitaire
+		
+		// Permet de rafraichir tout l'affichage du solitaire en cas de DnD non acheve
 		getRootPane().repaint();
 	}
 

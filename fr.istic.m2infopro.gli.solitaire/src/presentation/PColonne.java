@@ -1,6 +1,7 @@
 package presentation;
 
 import java.awt.Color;
+import java.awt.Point;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.dnd.DnDConstants;
@@ -42,6 +43,9 @@ public class PColonne extends JPanel {
 	
 	private PTasDeCartesAlternees visibles;
 	private PTasDeCartes cachees;
+	
+	private PTasDeCartes currentMovedPTasDeCarte;
+	private Point initialCurrentMovedPTasDeCartesPosition;
 	
 
 	/**
@@ -151,7 +155,7 @@ public class PColonne extends JPanel {
 	
 	public void dragGestureRecognized(DragGestureEvent e) {
 		System.out.println("\n");
-		System.out.println("PSabot.dragGestureRecognized");
+		System.out.println("PColonne.dragGestureRecognized");
 		
 		
 		CCarte cc;
@@ -160,14 +164,17 @@ public class PColonne extends JPanel {
 		try {
 			
 			// Recuperation de la carte sous le curseur
-			
-			
 			pc = (PCarte) visibles.getComponentAt(e.getDragOrigin());
+			
+			
+			// Recuperation de la position avant drag de la carte
+			// Permettra de setter la position initiale de currentMovedPTasDeCarte pour le deplacement.
+			initialCurrentMovedPTasDeCartesPosition = pc.getLocation();
 			
 			
 			cc = pc.getControle();
 			
-			System.out.println("    PSabot -> CCarte : " + cc.toString());
+			System.out.println("    PColonne -> CCarte : " + cc.toString());
 			
 			// C'est le controle qui gere lui meme si cc est null apres que
 			// l'utilisateur est pas selectionne la bonne carte
@@ -178,7 +185,7 @@ public class PColonne extends JPanel {
 	}
 	
 	public void dragDropEnd(DragSourceDropEvent e) {
-		System.out.println("PSabot.dragDropEnd");
+		System.out.println("PColonne.dragDropEnd");
 		
 		// Recuperation du contexte du drag
 		DragSourceContext dsc = (DragSourceContext) e.getSource();
@@ -200,8 +207,12 @@ public class PColonne extends JPanel {
 			e1.printStackTrace();
 		}
 		
-		// Permet de re-afficher une carte draguee dont le drop n'aurait pas abouti 
-		repaint();
+		// De-encrage du pTasDeCartes du root panel
+		// (supprime la visibillite du PTasDeCartes a la fin du deplacement)
+		getRootPane().remove(currentMovedPTasDeCarte);
+		
+		// Permet de rafraichir tout l'affichage du solitaire en cas de DnD non acheve
+		getRootPane().repaint();
 	}
 
 	public void dragEnter(DropTargetDragEvent e) throws Exception {
@@ -261,14 +272,30 @@ public class PColonne extends JPanel {
 	}
 	
 	public void c2pDebutDnDOK(PTasDeCartes pTasDeCartes) throws UnsupportedFlavorException, IOException {
-		System.out.println("PSabot.c2pDebutDnDOK");
-		System.out.println("  PSabot -> " + pTasDeCartes.getControle().toString());
+		System.out.println("PColonne.c2pDebutDnDOK");
+		System.out.println("  PColonne -> " + pTasDeCartes.getControle().toString());
 		
-		// Pour le deplacement graphique de la carte
-		dragSourceMotionListener.setCurrentMovedPTasDeCarte(pTasDeCartes);
+		currentMovedPTasDeCarte = pTasDeCartes;
+
+		
+		// Initialisation de la position du PTasDeCartes destine au transfert avec la position de la carte avant le DnD 
+		currentMovedPTasDeCarte.setLocation(initialCurrentMovedPTasDeCartesPosition);
+
+		
+		// Encrage du PTasDeCartes, au premier plan, dans le panel root
+		// (rend visible le pTasDeCartes durant le deplacement)
+		getRootPane().add(currentMovedPTasDeCarte, 0);
+		
+		
+		// Gestion du deplacement du PTasDeCartes en meme temps que la souris
+		dragSourceMotionListener.setCurrentMovedPTasDeCarte(currentMovedPTasDeCarte);
+
+	
+		// Initialisation de toutes les coordonnees relatives au deplacement graphique du PTasDeCartes
+		dragSourceMotionListener.setSelection(getRootPane().getLocationOnScreen(), theInitialEvent.getDragOrigin());
 		
 		// Lancement du drag
-		dragSource.startDrag(theInitialEvent, DragSource.DefaultMoveDrop, pTasDeCartes, dragSourceListener);
+		dragSource.startDrag(theInitialEvent, DragSource.DefaultMoveDrop, currentMovedPTasDeCarte, dragSourceListener);
 		
 		// startDrag -> fait a l'aide de la presentation sabot + donnee
 		// transferee (= pc) + event (= theInitialEvent)
@@ -276,14 +303,14 @@ public class PColonne extends JPanel {
 
 
 	public void c2pDebutDnDKO() {
-		System.out.println("PSabot.c2pDebutDnDKO : Le drag and drop n'a pas fonctionné");
+		System.out.println("PColonne.c2pDebutDnDKO : Le drag and drop n'a pas fonctionné");
 		
 		// S'il y avait besoin de faire un traitement sur un plantage du DnD
 		// Ici, il n'y a pas besoin de traitement en utilisanat AWT
 	}
 
 	public void c2pDebutDnDNull() {
-		System.out.println("PSabot.c2pDebutDnDNull : La PCarte est nulle");
+		System.out.println("PColonne.c2pDebutDnDNull : La PCarte est nulle");
 		
 		// S'il y avait besoin de faire un traitement sur un plantage du DnD
 		// Ici, il n'y a pas besoin de traitement en utilisanat AWT
