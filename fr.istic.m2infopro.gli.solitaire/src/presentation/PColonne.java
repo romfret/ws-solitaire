@@ -24,18 +24,20 @@ import java.io.IOException;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
+import solitaire.application.Colonne;
 import controler.CCarte;
 import controler.CColonne;
 import controler.CTasDeCartes;
+import controler.CTasDeCartesAlternees;
 import dndListener.MyDragSourceMotionListener;
 
 public class PColonne extends JPanel {
 
 	private static final long serialVersionUID = -7826492851733908362L;
-	private DropTarget dropTarget;
+
 	private CColonne cColonne;
 	private DropTargetDropEvent theFinalEvent;
-	private PCarte pcDrop;
+	private PTasDeCartes ptdcDrop;
 	private DragSource dragSource;
 	private DragGestureEvent theInitialEvent;
 	private MyDragSourceMotionListener dragSourceMotionListener;
@@ -116,7 +118,8 @@ public class PColonne extends JPanel {
 		};
 
 		// DnD
-		dropTarget = new DropTarget(this, new DropTargetListener() {
+		
+		new DropTarget(this, new DropTargetListener() {
 
 			@Override
 			public void dropActionChanged(DropTargetDragEvent dtde) {
@@ -151,6 +154,7 @@ public class PColonne extends JPanel {
 				}
 			}
 		});
+		
 	}
 	
 	public void dragGestureRecognized(DragGestureEvent e) {
@@ -185,7 +189,7 @@ public class PColonne extends JPanel {
 	}
 	
 	public void dragDropEnd(DragSourceDropEvent e) {
-		System.out.println("PColonne.dragDropEnd");
+		System.out.println("PColonne.dragDropEnd = visibles:" + cColonne.getVisibles() + "   et cachees:" + cColonne.getCachees());
 		
 		// Recuperation du contexte du drag
 		DragSourceContext dsc = (DragSourceContext) e.getSource();
@@ -197,7 +201,7 @@ public class PColonne extends JPanel {
 			ptdc = (PTasDeCartes) dsc.getTransferable().getTransferData(PTasDeCartes.FLAVOR);
 			
 			cColonne.p2cDragDropEnd(e.getDropSuccess(),
-					(CCarte) ptdc.getControle().getSommet());
+					(CTasDeCartes) ptdc.getControle());
 			
 		} catch (UnsupportedFlavorException e2) {
 			e2.printStackTrace();
@@ -213,6 +217,7 @@ public class PColonne extends JPanel {
 		
 		// Permet de rafraichir tout l'affichage du solitaire en cas de DnD non acheve
 		getRootPane().repaint();
+		
 	}
 
 	public void dragEnter(DropTargetDragEvent e) throws Exception {
@@ -223,12 +228,9 @@ public class PColonne extends JPanel {
 			Transferable transferable = e.getTransferable();
 
 			// Recuperation de la carte passee via le DnD
-			PTasDeCartes ptdc = (PTasDeCartes) transferable
-					.getTransferData(PTasDeCartes.FLAVOR);
-			CTasDeCartes ctdc = ptdc.getControle();
-			pcDrop = ((CCarte) ctdc.getSommet()).getPresentation();
+			ptdcDrop = (PTasDeCartes) transferable.getTransferData(PTasDeCartes.FLAVOR);
 
-			cColonne.p2cDragEnter(pcDrop.getControle());
+			cColonne.p2cDragEnter(ptdcDrop.getControle());
 		} else {
 			System.err
 					.println("  Transferable : N'est pas un objet PTasCeCartes");
@@ -236,23 +238,31 @@ public class PColonne extends JPanel {
 	}
 
 	public void dragExit(DropTargetEvent e) {
-		cColonne.p2cDragExit(pcDrop.getControle());
+		cColonne.p2cDragExit(ptdcDrop.getControle());
 	}
 
 	public void drop(DropTargetDropEvent e) {
 		theFinalEvent = e;
-		cColonne.p2cDrop(pcDrop.getControle());
+		cColonne.p2cDrop(ptdcDrop.getControle());
 	}
 
 	public void c2pFinDnDOK() {
+		System.out.println("PColonne.c2pFinDnDOK  = visibles:" + cColonne.getVisibles() + "   et cachees:" + cColonne.getCachees());
 		theFinalEvent.acceptDrop(DnDConstants.ACTION_MOVE);
 		theFinalEvent.getDropTargetContext().dropComplete(true);
+
 		this.setBackground(new Color(204, 153, 255));
+		this.revalidate();
+		//getRootPane().revalidate();
+		getRootPane().repaint();
+
 	}
 
 	public void c2pFinDnDKO() {
+		System.out.println("PColonne.c2pFinDnDKO");
 		// Gestion du foirage de la fin du DnD
 		this.setBackground(new Color(204, 153, 255));
+		getRootPane().repaint();
 	}
 
 	public void c2pShowEmpilable() {

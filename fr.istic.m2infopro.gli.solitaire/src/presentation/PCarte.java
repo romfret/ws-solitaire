@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 import controler.CCarte;
+import controler.CTasDeCartes;
 
 /**
  * Composant Pr�sentation d'une carte
@@ -117,5 +118,6 @@ public class PCarte extends JPanel {
 		f.setLocation(200, 100); // le positionner
 		f.setVisible(true); // et le rendre visible
 	} // main
+
 
 } // PCarte

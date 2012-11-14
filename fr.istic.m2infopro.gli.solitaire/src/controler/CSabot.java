@@ -15,9 +15,11 @@ import solitaire.application.TasDeCartes;
 public class CSabot extends Sabot {
 
 	private PSabot pSabot;
+	private CUsine usine;
 
 	public CSabot(String nom, CUsine u) {
 		super(nom, u);
+		this.usine = u;
 	}
 
 	public void setReverse(Tas t) {
@@ -63,35 +65,35 @@ public class CSabot extends Sabot {
 		return pSabot;
 	}
 
-	public void p2cDebutDnD(CCarte cc) throws Exception {
-		if (cc != null) {
-			if (cc == getSommet()) {
+	public void p2cDebutDnD(CTasDeCartes ctdc2) throws Exception {
+		//if (ctdc2 != null) {
+			if (ctdc2.getSommet() == getSommet()) {
 				depiler();
 				
 				// Instanciation du Tas de carte transferable contenant la carte a transferer
-				CTasDeCartes ctdc = new CTasDeCartes("Drag", new CUsine());
-				ctdc.empiler(cc);
+				//CTasDeCartes ctdc = new CTasDeCartes("Drag", new CUsine());
+				//ctdc.empiler(ctdc2);
 				
-				pSabot.c2pDebutDnDOK(ctdc.getPresentation());
+				pSabot.c2pDebutDnDOK(ctdc2.getPresentation());
 			} else {
 				pSabot.c2pDebutDnDKO();
 				// + comptage des erreurs + reaction
 				// -> Au bout d'un certain nombre d'erreur, on peut envoyé un
 				// message explicite a l'utilisateur
 			}
-		} else {
-			pSabot.c2pDebutDnDNull();
+		//} else {
+			//pSabot.c2pDebutDnDNull();
 			// + comptage des erreurs + reaction
 			// -> Au bout d'un certain nombre d'erreur, on peut envoyé un
-			// message explicite a l'utilisateur
-		}
+			// message explicite a sl'utilisateur
+		//}
 	}
 
-	public void p2cDragDropEnd(boolean success, CCarte cc) {
+	public void p2cDragDropEnd(boolean success, CTasDeCartes ctdc) {
 		if (!success) {
 			System.out.println("CSabot.p2cDragDropEnd");
-			System.out.println("  CSabot -> CCarte : " + cc.toString());
-			empiler(cc);
+			System.out.println("  CSabot -> CTasDeCartes(1seule) : " + ctdc.toString());
+			empiler(ctdc);
 		}
 	}
 
@@ -151,5 +153,12 @@ public class CSabot extends Sabot {
 		f.setLocation(200, 100); // le positionner
 		f.setSize(800, 600);
 		f.setVisible(true); // et le rendre visible
+	}
+
+	public CTasDeCartes getNewCTasDeCartes(CCarte cc) {
+		// TODO Auto-generated method stub
+		CTasDeCartes retour = ((CTasDeCartes) usine.newTasDeCartes("Tas de cartes a une carte", usine));
+		retour.empiler(cc);
+		return retour;
 	}
 }

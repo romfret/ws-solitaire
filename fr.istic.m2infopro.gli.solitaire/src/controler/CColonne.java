@@ -2,6 +2,8 @@ package controler;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.util.List;
+import java.util.Stack;
 
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
@@ -17,16 +19,23 @@ import solitaire.application.TasDeCartes;
 public class CColonne extends Colonne {
 	
 	private PColonne pColonne;
+	private CUsine usine;
 
 	public CColonne(String nom, CUsine u){
 		super(nom, u);
-		
+		usine = u;
 		PTasDeCartesAlternees pVisibles = ((CTasDeCartesAlternees)visibles).getPresentation();
 		PTasDeCartes pCachees = ((CTasDeCartes)cachees).getPresentation();
 	
 		pColonne = new PColonne(this, pCachees, pVisibles);
 	}
 	
+	public CTasDeCartesAlternees getVisibles(){
+		return (CTasDeCartesAlternees) visibles;
+	}
+	public CTasDeCartes getCachees(){
+		return (CTasDeCartes) cachees;
+	}
 	
 	public PColonne getPresentation() {
 		return pColonne;
@@ -46,24 +55,34 @@ public class CColonne extends Colonne {
 	
 	// DnD
 	
-	public void p2cDragEnter(CCarte cc) {
-		if(isEmpilable(cc))
-			pColonne.c2pShowEmpilable();
-		else
-			pColonne.c2pShowNotEmpilable();
+	public void p2cDragEnter(CTasDeCartes ctdc) {
+		try {
+			if(isEmpilable(ctdc))
+				pColonne.c2pShowEmpilable();
+			else
+				pColonne.c2pShowNotEmpilable();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
-	public void p2cDragExit(CCarte cc) {
+	public void p2cDragExit(CTasDeCartes ctdc) {
 		pColonne.c2pShowNeutral();
 	}
 	
-	public void p2cDrop(CCarte cc) {
-		if(isEmpilable(cc)) {
-			empiler(cc);
-			pColonne.c2pFinDnDOK();
-		}
-		else {
-			pColonne.c2pFinDnDKO();
+	public void p2cDrop(CTasDeCartes ctdc) {
+		try {
+			if(isEmpilable(ctdc)) {
+				empiler(ctdc);
+				pColonne.c2pFinDnDOK();
+			}
+			else {
+				pColonne.c2pFinDnDKO();
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	
@@ -72,15 +91,19 @@ public class CColonne extends Colonne {
 			//if (cc == getSommet()) {
 				
 				// Instanciation du Tas de carte transferable contenant la carte a transferer
-				CTasDeCartes ctdc = new CTasDeCartes("Drag", new CUsine());
+				Stack<CCarte> tampon = new Stack<CCarte>();
 				
 				CCarte c = null;
-				
 				while(c!=cc){
 					c = (CCarte) visibles.getSommet();
 					depiler();
-					ctdc.empiler(c);
+					tampon.push(c);
 				} 
+				
+				CTasDeCartes ctdc = (CTasDeCartes) usine.newTasDeCartes("TDC cree a partir dune colonne", usine);
+				while(!tampon.isEmpty()){
+					ctdc.empiler((Carte) tampon.pop());
+				}
 				
 				
 				pColonne.c2pDebutDnDOK(ctdc.getPresentation());
@@ -98,11 +121,20 @@ public class CColonne extends Colonne {
 		}
 	}
 
-	public void p2cDragDropEnd(boolean success, CCarte cc) {
+	public void p2cDragDropEnd(boolean success, CTasDeCartes cc) {
 		if (!success) {
-			System.out.println("CSabot.p2cDragDropEnd");
-			System.out.println("  CSabot -> CCarte : " + cc.toString());
+			System.out.println("CColonne.p2cDragDropEnd");
+			System.out.println("  CColonne -> CTasDeCartes : " + cc.toString());
 			empiler(cc);
+		} else {
+			try {
+				
+				this.retournerCarte();
+				//pColonne.repaint();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 

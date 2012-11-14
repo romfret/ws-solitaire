@@ -21,6 +21,7 @@ import javax.swing.JPanel;
 
 import controler.CCarte;
 import controler.CSabot;
+import controler.CTasDeCartes;
 import dndListener.MyDragSourceMotionListener;
 
 public class PSabot extends JPanel {
@@ -139,25 +140,26 @@ public class PSabot extends JPanel {
 		
 		CCarte cc;
 		PCarte pc;
+		CTasDeCartes ctdc;
 		theInitialEvent = e;
 		try {
 			
 			// Recuperation de la carte sous le curseur
 			pc = (PCarte) visibles.getComponentAt(e.getDragOrigin());
-			
+			cc = pc.getControle();
+			ctdc = cSabot.getNewCTasDeCartes(cc);
 						
 			// Recuperation de la position avant drag de la carte
 			// Permettra de setter la position initiale de currentMovedPTasDeCarte pour le deplacement.
 			initialCurrentMovedPTasDeCartesPosition = pc.getLocation();			
 			
 			
-			cc = pc.getControle();
 			
 			System.out.println("    PSabot -> CCarte : " + cc.toString());
 			
 			// C'est le controle qui gere lui meme si cc est null apres que
 			// l'utilisateur est pas selectionne la bonne carte
-			cSabot.p2cDebutDnD(cc);
+			cSabot.p2cDebutDnD(ctdc);
 			
 			
 		} catch (Exception e1) {
@@ -166,7 +168,7 @@ public class PSabot extends JPanel {
 	}
 
 	public void c2pDebutDnDOK(PTasDeCartes pTasDeCartes) throws UnsupportedFlavorException, IOException {
-		System.out.println("PSabot.c2pDebutDnDOK");
+		System.out.println("PSabot.c2pDebutDnDOK -> ");
 		System.out.println("  PSabot -> " + pTasDeCartes.getControle().toString());
 		
 		
@@ -209,8 +211,7 @@ public class PSabot extends JPanel {
 			// Recuperation de l'objet Transferable PTasDeCartes
 			ptdc = (PTasDeCartes) dsc.getTransferable().getTransferData(PTasDeCartes.FLAVOR);
 			
-			cSabot.p2cDragDropEnd(e.getDropSuccess(),
-					(CCarte) ptdc.getControle().getSommet());
+			cSabot.p2cDragDropEnd(e.getDropSuccess(),ptdc.getControle());
 			
 		} catch (UnsupportedFlavorException e2) {
 			e2.printStackTrace();
