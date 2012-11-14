@@ -65,7 +65,6 @@ public class PColonne extends JPanel {
 		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		// this.setSize(PCarte.largeur+20, 550);
 		// this.setPreferredSize(getSize());
-		this.setBackground(Color.BLUE);
 
 		add(cachees);
 		cachees.setDxDy(0, 10);
@@ -251,34 +250,33 @@ public class PColonne extends JPanel {
 		theFinalEvent.acceptDrop(DnDConstants.ACTION_MOVE);
 		theFinalEvent.getDropTargetContext().dropComplete(true);
 
-		this.setBackground(new Color(204, 153, 255));
 		this.revalidate();
-		//getRootPane().revalidate();
 		getRootPane().repaint();
+		this.getParent().setBackground(new Color(51,153,204));
 
 	}
 
 	public void c2pFinDnDKO() {
 		System.out.println("PColonne.c2pFinDnDKO");
 		// Gestion du foirage de la fin du DnD
-		this.setBackground(new Color(204, 153, 255));
+		this.getParent().setBackground(new Color(51,153,204));
 		getRootPane().repaint();
 	}
 
 	public void c2pShowEmpilable() {
-		this.setBackground(Color.green);
+		this.getParent().setBackground(Color.green);
 	}
 
 	public void c2pShowNotEmpilable() {
 		// Afficher un effet visuel sur pcDrop pour informer le joueur que la
 		// carte ne peut pas etre empilee.
-		this.setBackground(Color.red);
+		this.getParent().setBackground(Color.red);
 	}
 
 	public void c2pShowNeutral() {
 		// Affiche la carte de facon normale (contrairement au changement de
 		// couleur lors de la selection)
-		this.setBackground(new Color(204, 153, 255));
+		this.getParent().setBackground(new Color(51,153,204));
 	}
 	
 	public void c2pDebutDnDOK(PTasDeCartes pTasDeCartes) throws UnsupportedFlavorException, IOException {
