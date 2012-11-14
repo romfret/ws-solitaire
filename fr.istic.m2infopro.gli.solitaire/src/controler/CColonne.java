@@ -101,10 +101,11 @@ public class CColonne extends Colonne {
 				} 
 				
 				CTasDeCartes ctdc = (CTasDeCartes) usine.newTasDeCartes("TDC cree a partir dune colonne", usine);
-				while(!tampon.isEmpty()){
-					ctdc.empiler((Carte) tampon.pop());
-				}
+				ctdc.getPresentation().setDxDy(0, 20);
 				
+				while(!tampon.isEmpty()){
+					ctdc.empiler((CCarte) tampon.pop());
+				}
 				
 				pColonne.c2pDebutDnDOK(ctdc.getPresentation());
 		//	} else {

@@ -172,6 +172,7 @@ public class PColonne extends JPanel {
 			
 			// Recuperation de la position avant drag de la carte
 			// Permettra de setter la position initiale de currentMovedPTasDeCarte pour le deplacement.
+			System.out.println("location= " +pc.getLocation());
 			initialCurrentMovedPTasDeCartesPosition = pc.getLocation();
 			
 			
@@ -287,9 +288,11 @@ public class PColonne extends JPanel {
 
 		
 		// Initialisation de la position du PTasDeCartes destine au transfert avec la position de la carte avant le DnD 
-		currentMovedPTasDeCarte.setLocation(initialCurrentMovedPTasDeCartesPosition);
+		//System.out.println("setlocation="+initialCurrentMovedPTasDeCartesPosition);
+		//currentMovedPTasDeCarte.setLocation(initialCurrentMovedPTasDeCartesPosition);
 
-		
+		//currentMovedPTasDeCarte.revalidate();
+		//currentMovedPTasDeCarte.repaint();
 		// Encrage du PTasDeCartes, au premier plan, dans le panel root
 		// (rend visible le pTasDeCartes durant le deplacement)
 		getRootPane().add(currentMovedPTasDeCarte, 0);

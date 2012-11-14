@@ -146,12 +146,19 @@ public class PSabot extends JPanel {
 			
 			// Recuperation de la carte sous le curseur
 			pc = (PCarte) visibles.getComponentAt(e.getDragOrigin());
+			
+			
 			cc = pc.getControle();
+			
+			
+			
 			ctdc = cSabot.getNewCTasDeCartes(cc);
 						
 			// Recuperation de la position avant drag de la carte
 			// Permettra de setter la position initiale de currentMovedPTasDeCarte pour le deplacement.
-			initialCurrentMovedPTasDeCartesPosition = pc.getLocation();			
+			Point cLoc = pc.getLocation();
+			Point pcLoc = pc.getParent().getLocation();
+			initialCurrentMovedPTasDeCartesPosition = new Point(cLoc.x + pcLoc.x, cLoc.y + pcLoc.y);			
 			
 			
 			

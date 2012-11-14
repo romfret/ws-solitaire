@@ -67,7 +67,7 @@ public class CSabot extends Sabot {
 
 	public void p2cDebutDnD(CTasDeCartes ctdc2) throws Exception {
 		//if (ctdc2 != null) {
-			if (ctdc2.getSommet() == getSommet()) {
+			if (!ctdc2.isVide()) {
 				depiler();
 				
 				// Instanciation du Tas de carte transferable contenant la carte a transferer
@@ -158,7 +158,14 @@ public class CSabot extends Sabot {
 	public CTasDeCartes getNewCTasDeCartes(CCarte cc) {
 		// TODO Auto-generated method stub
 		CTasDeCartes retour = ((CTasDeCartes) usine.newTasDeCartes("Tas de cartes a une carte", usine));
-		retour.empiler(cc);
+		try {
+			if (cc == this.getSommet()) {
+				retour.empiler(cc);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return retour;
 	}
 }
