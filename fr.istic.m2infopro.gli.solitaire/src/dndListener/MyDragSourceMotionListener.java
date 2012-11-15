@@ -45,7 +45,7 @@ public class MyDragSourceMotionListener implements DragSourceMotionListener {
 
 		// Coordonnes du curseur de la souris par rapport au PTasDeCartes
 		dx = cursorPositionOnFrame.x - currentMovedPTasDeCarte.getX();
-		dy = cursorPositionOnFrame.y - currentMovedPTasDeCarte.getY();
+		dy = cursorPositionOnFrame.y- currentMovedPTasDeCarte.getY();
 	}
 
 }

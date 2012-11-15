@@ -1,6 +1,7 @@
 package presentation;
 
 import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.dnd.DnDConstants;
@@ -178,12 +179,14 @@ public class PSabot extends JPanel {
 		System.out.println("PSabot.c2pDebutDnDOK -> ");
 		System.out.println("  PSabot -> " + pTasDeCartes.getControle().toString());
 		
+		pTasDeCartes.validate();
+		System.out.println("size="+pTasDeCartes.getSize());
 		
 		currentMovedPTasDeCarte = pTasDeCartes;
 
 	
 		// Initialisation de la position du PTasDeCartes destine au transfert avec la position de la carte avant le DnD 
-		currentMovedPTasDeCarte.setLocation(initialCurrentMovedPTasDeCartesPosition);
+		//currentMovedPTasDeCarte.setLocation(initialCurrentMovedPTasDeCartesPosition);
 
 		
 		// Encrage du PTasDeCartes, au premier plan, dans le panel root
@@ -196,11 +199,18 @@ public class PSabot extends JPanel {
 
 		
 		// Initialisation de toutes les coordonnees relatives au deplacement graphique du PTasDeCartes
-		dragSourceMotionListener.setSelection(getRootPane().getLocationOnScreen(), theInitialEvent.getDragOrigin());	
+		System.out.println("getRootPane().getLocationOnScreen()"+getRootPane().getLocationOnScreen());
+		System.out.println("getLocationOnScreen()"+getLocationOnScreen());
+		System.out.println("theInitialEvent.getDragOrigin"+theInitialEvent.getDragOrigin());
+		Dimension pThis = this.getPreferredSize();
+		Point p1 = getRootPane().getLocationOnScreen();
+		Point p2 = theInitialEvent.getDragOrigin();
+		Point p3 = new Point(p1.x-p2.x+PCarte.largeur/2,p1.y-p2.y+PCarte.hauteur/2);
+		dragSourceMotionListener.setSelection(p3,  theInitialEvent.getDragOrigin());	
 		
 		
 		// Lancement du drag
-		dragSource.startDrag(theInitialEvent, DragSource.DefaultMoveDrop, pTasDeCartes, dragSourceListener);
+		dragSource.startDrag(theInitialEvent, DragSource.DefaultMoveDrop, currentMovedPTasDeCarte, dragSourceListener);
 		
 		// startDrag -> fait a l'aide de la presentation sabot + donnee
 		// transferee (= pc) + event (= theInitialEvent)
