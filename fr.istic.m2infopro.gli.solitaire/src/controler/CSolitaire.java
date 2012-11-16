@@ -49,7 +49,7 @@ public class CSolitaire extends Solitaire {
 		CSolitaire solitaire = new CSolitaire("CSolitaire", new CUsine());
 		solitaire.initialiser();
 
-		JFrame frame = new JFrame("Test CSolitaire");
+		JFrame frame = new JFrame("Le solitaire le plus sexy de la terre :)");
 		frame.getContentPane().add(solitaire.getPresentation());
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(850, 700);
