@@ -66,33 +66,19 @@ public class CSabot extends Sabot {
 	}
 
 	public void p2cDebutDnD(CTasDeCartes ctdc2) throws Exception {
-		//if (ctdc2 != null) {
 			if (!ctdc2.isVide()) {
 				depiler();
-				
-				// Instanciation du Tas de carte transferable contenant la carte a transferer
-				//CTasDeCartes ctdc = new CTasDeCartes("Drag", new CUsine());
-				//ctdc.empiler(ctdc2);
-				
 				pSabot.c2pDebutDnDOK(ctdc2.getPresentation());
 			} else {
 				pSabot.c2pDebutDnDKO();
 				// + comptage des erreurs + reaction
-				// -> Au bout d'un certain nombre d'erreur, on peut envoyé un
+				// -> Au bout d'un certain nombre d'erreur, on peut envoyer un
 				// message explicite a l'utilisateur
 			}
-		//} else {
-			//pSabot.c2pDebutDnDNull();
-			// + comptage des erreurs + reaction
-			// -> Au bout d'un certain nombre d'erreur, on peut envoyé un
-			// message explicite a sl'utilisateur
-		//}
 	}
 
 	public void p2cDragDropEnd(boolean success, CTasDeCartes ctdc) {
 		if (!success) {
-			System.out.println("CSabot.p2cDragDropEnd");
-			System.out.println("  CSabot -> CTasDeCartes(1seule) : " + ctdc.toString());
 			empiler(ctdc);
 		}
 	}
@@ -156,14 +142,12 @@ public class CSabot extends Sabot {
 	}
 
 	public CTasDeCartes getNewCTasDeCartes(CCarte cc) {
-		// TODO Auto-generated method stub
 		CTasDeCartes retour = ((CTasDeCartes) usine.newTasDeCartes("Tas de cartes a une carte", usine));
 		try {
 			if (cc == this.getSommet()) {
 				retour.empiler(cc);
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return retour;

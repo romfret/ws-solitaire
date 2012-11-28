@@ -1,7 +1,6 @@
 package presentation;
 
 import java.awt.Cursor;
-import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.dnd.DnDConstants;
@@ -43,8 +42,6 @@ public class PSabot extends JPanel {
 	private DragSourceListener dragSourceListener;
 	
 	private PTasDeCartes currentMovedPTasDeCarte;
-	private Point initialCurrentMovedPTasDeCartesPosition;
-	
 	/**
 	 * Le constructeur
 	 * 
@@ -159,7 +156,7 @@ public class PSabot extends JPanel {
 			// Permettra de setter la position initiale de currentMovedPTasDeCarte pour le deplacement.
 			Point cLoc = pc.getLocation();
 			Point pcLoc = pc.getParent().getLocation();
-			initialCurrentMovedPTasDeCartesPosition = new Point(cLoc.x + pcLoc.x, cLoc.y + pcLoc.y);			
+			new Point(cLoc.x + pcLoc.x, cLoc.y + pcLoc.y);			
 			
 			
 			
@@ -202,7 +199,6 @@ public class PSabot extends JPanel {
 		System.out.println("getRootPane().getLocationOnScreen()"+getRootPane().getLocationOnScreen());
 		System.out.println("getLocationOnScreen()"+getLocationOnScreen());
 		System.out.println("theInitialEvent.getDragOrigin"+theInitialEvent.getDragOrigin());
-		Dimension pThis = this.getPreferredSize();
 		Point p1 = getRootPane().getLocationOnScreen();
 		Point p2 = theInitialEvent.getDragOrigin();
 		Point p3 = new Point(p1.x-p2.x+PCarte.largeur/2,p1.y-p2.y+PCarte.hauteur/2);
@@ -252,58 +248,37 @@ public class PSabot extends JPanel {
 		System.out.println("PSabot.c2pDebutDnDKO : Le drag and drop n'a pas fonctionné");
 		
 		// S'il y avait besoin de faire un traitement sur un plantage du DnD
-		// Ici, il n'y a pas besoin de traitement en utilisanat AWT
+		// Ici, il n'y a pas besoin de traitement en utilisanat Swing
 	}
 
 	public void c2pDebutDnDNull() {
 		System.out.println("PSabot.c2pDebutDnDNull : La PCarte est nulle");
 		
 		// S'il y avait besoin de faire un traitement sur un plantage du DnD
-		// Ici, il n'y a pas besoin de traitement en utilisanat AWT
+		// Ici, il n'y a pas besoin de traitement en utilisanat Swing
 	}
 	
 
 	public class RetournerTasListener implements MouseListener {
-
 		@Override
 		public void mouseClicked(MouseEvent arg0) {
 			try {
-				// System.out.println("retournerTasListener");
 				cSabot.retourner();
 			} catch (Exception e) {
-				// System.err.println("PSabot MouseClicked error");
 				e.printStackTrace();
 			}
 		}
-
 		@Override
-		public void mouseEntered(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-
-		}
-
+		public void mouseEntered(MouseEvent arg0) {}
 		@Override
-		public void mouseExited(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-
-		}
-
+		public void mouseExited(MouseEvent arg0) {}
 		@Override
-		public void mousePressed(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-
-		}
-
+		public void mousePressed(MouseEvent arg0) {}
 		@Override
-		public void mouseReleased(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-
-		}
-
+		public void mouseReleased(MouseEvent arg0) {}
 	}
 
 	public class RetournerCartesListener implements MouseListener {
-
 		@Override
 		public void mouseClicked(MouseEvent arg0) {
 			try {
@@ -314,31 +289,14 @@ public class PSabot extends JPanel {
 				e.printStackTrace();
 			}
 		}
-
 		@Override
-		public void mouseEntered(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-
-		}
-
+		public void mouseEntered(MouseEvent arg0) {}
 		@Override
-		public void mouseExited(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-
-		}
-
+		public void mouseExited(MouseEvent arg0) {}
 		@Override
-		public void mousePressed(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-
-		}
-
+		public void mousePressed(MouseEvent arg0) {}
 		@Override
-		public void mouseReleased(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-
-		}
-
+		public void mouseReleased(MouseEvent arg0) {}
 	}
 
 }

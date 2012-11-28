@@ -1,6 +1,5 @@
 package presentation;
 
-//import solitaire.controle.* ;
 import java.awt.Color;
 import java.awt.FlowLayout;
 
@@ -11,19 +10,11 @@ import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 import controler.CCarte;
-import controler.CTasDeCartes;
 
 /**
- * Composant Pr�sentation d'une carte
+ * Composant Presentation d'une carte
  */
 public class PCarte extends JPanel {
-
-	
-	
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 6544254070962077402L;
 	
 	protected CCarte controle; // contr�leur associ�
@@ -39,7 +30,6 @@ public class PCarte extends JPanel {
 	 *            : nom de la carte (exemple "3H" = 3 Heart)
 	 */
 	 public PCarte (final String chaine, final CCarte controle) {
-//	public PCarte(final String chaine) {
 		 this.controle = controle;
 
 		// image de la face
@@ -62,7 +52,7 @@ public class PCarte extends JPanel {
 		setSize(face.getSize());
 		setPreferredSize(getSize());
 		setFaceVisible(false);
-	} // constructeur
+	} 
 
 	/**
 	 * changer la visibilit� de la carte

@@ -13,39 +13,31 @@ import controler.CSolitaire;
 
 public class PSolitaire extends JPanel {
 	private static final long serialVersionUID = -7160926421677040759L;
-
-	
 	private int i = 0;
 	private int j = 0;
 	private JPanel panels[];
+	
 	public PSolitaire(CSolitaire cSolitaire) {
 		this.setLayout(new BorderLayout());
-		
 		JPanel panelColonnes = getPanelColonnes();
 		this.add(panelColonnes, BorderLayout.WEST);
-
 	}
 
 	private JPanel getPanelColonnes() {
 		JPanel panelColonnes = new JPanel();
 		panels = new JPanel[8];
 		for(int i=0; i<8; i++){
-			System.out.println("panel " + i + " = " + Integer.toString(PCarte.largeur+20) + " et " + Integer.toString(this.getHeight()-20) );
-
 			panels[i] = new JPanel();
-			if(i!=7){
+			if (i != 7) {
 				panels[i].setSize(PCarte.largeur+20, 550);
 				Color colr = new Color(51,153,204);
 				panels[i].setBackground(colr);
-			}else{
+			} else {
 				panels[i].setSize(PCarte.largeur+50, 470);
 				panels[i].setLayout(new BoxLayout(panels[i], BoxLayout.PAGE_AXIS));
 				panels[i].setBackground(Color.darkGray);
 			}
-			
 			panels[i].setPreferredSize(panels[i].getSize());
-			
-
 			panelColonnes.add(panels[i]);
 		}
 		return panelColonnes;
@@ -98,7 +90,6 @@ public class PSolitaire extends JPanel {
 	}
 
 	public void addPColonne(PColonne presentation) {
-		// TODO Auto-generated method stub
 		panels[i].add(presentation);
 		i++;
 	}

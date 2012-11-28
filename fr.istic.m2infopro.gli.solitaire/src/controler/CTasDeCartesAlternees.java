@@ -62,7 +62,6 @@ public class CTasDeCartesAlternees extends TasDeCartesAlternees {
 		f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		f.setLayout(new FlowLayout()); // au lieu de BorderLayout par d�faut
 		f.getContentPane().setBackground(new Color(143, 143, 195)); // violet
-		// p�le
 
 		CUsine u = new CUsine();
 

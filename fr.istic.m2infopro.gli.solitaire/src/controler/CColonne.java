@@ -2,7 +2,6 @@ package controler;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
-import java.util.List;
 import java.util.Stack;
 
 import javax.swing.JFrame;
@@ -62,7 +61,6 @@ public class CColonne extends Colonne {
 			else
 				pColonne.c2pShowNotEmpilable();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -81,15 +79,12 @@ public class CColonne extends Colonne {
 				pColonne.c2pFinDnDKO();
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
 	public void p2cDebutDnD(CCarte cc) throws Exception {
 		if (cc != null) {
-			//if (cc == getSommet()) {
-				
 				// Instanciation du Tas de carte transferable contenant la carte a transferer
 				Stack<CCarte> tampon = new Stack<CCarte>();
 				
@@ -108,12 +103,6 @@ public class CColonne extends Colonne {
 				}
 				
 				pColonne.c2pDebutDnDOK(ctdc.getPresentation());
-		//	} else {
-				//pColonne.c2pDebutDnDKO();
-				// + comptage des erreurs + reaction
-				// -> Au bout d'un certain nombre d'erreur, on peut envoyé un
-				// message explicite a l'utilisateur
-			//}
 		} else {
 			pColonne.c2pDebutDnDNull();
 			// + comptage des erreurs + reaction
@@ -129,11 +118,8 @@ public class CColonne extends Colonne {
 			empiler(cc);
 		} else {
 			try {
-				
 				this.retournerCarte();
-				//pColonne.repaint();
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

@@ -87,15 +87,12 @@ public class CTasDeCartesColorees extends TasDeCartesColorees {
 		f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		f.setLayout(new FlowLayout()); // au lieu de BorderLayout par d�faut
 		f.getContentPane().setBackground(new Color(143, 143, 195)); // violet
-		// p�le
 
 		CUsine u = new CUsine();
 
 		CTasDeCartesColorees ctdcc = new CTasDeCartesColorees("ctdcc", 1, u);
 		
 		PTasDeCartesColorees ptdcc = ctdcc.getPresentation();
-//		ptdcc.setDxDy(0, 30);
-		
 		
 		// une carte visible
 		CCarte cc = new CCarte(1, 1);

@@ -1,7 +1,6 @@
 package presentation;
 
 import java.awt.Color;
-import java.awt.Point;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.dnd.DnDConstants;
@@ -24,11 +23,9 @@ import java.io.IOException;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
-import solitaire.application.Colonne;
 import controler.CCarte;
 import controler.CColonne;
 import controler.CTasDeCartes;
-import controler.CTasDeCartesAlternees;
 import dndListener.MyDragSourceMotionListener;
 
 public class PColonne extends JPanel {
@@ -44,12 +41,9 @@ public class PColonne extends JPanel {
 	private DragSourceListener dragSourceListener;
 	
 	private PTasDeCartesAlternees visibles;
-	private PTasDeCartes cachees;
-	
 	private PTasDeCartes currentMovedPTasDeCarte;
-	private Point initialCurrentMovedPTasDeCartesPosition;
 	
-
+	
 	/**
 	 * Le constructeur
 	 * 
@@ -61,7 +55,6 @@ public class PColonne extends JPanel {
 		super();
 		this.cColonne = cColonne;
 		this.visibles = visibles;
-		this.cachees = cachees;
 		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		// this.setSize(PCarte.largeur+20, 550);
 		// this.setPreferredSize(getSize());
@@ -173,7 +166,7 @@ public class PColonne extends JPanel {
 			// Recuperation de la position avant drag de la carte
 			// Permettra de setter la position initiale de currentMovedPTasDeCarte pour le deplacement.
 			System.out.println("location= " +pc.getLocation());
-			initialCurrentMovedPTasDeCartesPosition = pc.getLocation();
+			pc.getLocation();
 			
 			
 			cc = pc.getControle();
