@@ -65,9 +65,15 @@ public class CSabot extends Sabot {
 		return pSabot;
 	}
 
-	public void p2cDebutDnD(CTasDeCartes ctdc2) throws Exception {
-			if (!ctdc2.isVide()) {
+	public void p2cDebutDnD(CCarte cc) throws Exception {
+		if (cc != null) {
+			if (cc == getSommet()) {
 				depiler();
+				
+				// Creation d'un nouveau ctdc avec la carte a transferer.
+				CTasDeCartes ctdc2 = new CTasDeCartes("Drag", new CUsine());
+				ctdc2.empiler(cc);
+				
 				pSabot.c2pDebutDnDOK(ctdc2.getPresentation());
 			} else {
 				pSabot.c2pDebutDnDKO();
@@ -75,6 +81,9 @@ public class CSabot extends Sabot {
 				// -> Au bout d'un certain nombre d'erreur, on peut envoyer un
 				// message explicite a l'utilisateur
 			}
+		} else {
+			pSabot.c2pDebutDnDNull();
+		}
 	}
 
 	public void p2cDragDropEnd(boolean success, CTasDeCartes ctdc) {

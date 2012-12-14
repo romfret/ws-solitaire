@@ -21,7 +21,6 @@ import javax.swing.JPanel;
 
 import controler.CCarte;
 import controler.CSabot;
-import controler.CTasDeCartes;
 import dndListener.MyDragSourceMotionListener;
 
 public class PSabot extends JPanel {
@@ -138,7 +137,6 @@ public class PSabot extends JPanel {
 		
 		CCarte cc;
 		PCarte pc;
-		CTasDeCartes ctdc;
 		theInitialEvent = e;
 		try {
 			
@@ -150,8 +148,6 @@ public class PSabot extends JPanel {
 			
 			
 			
-			ctdc = cSabot.getNewCTasDeCartes(cc);
-						
 			// Recuperation de la position avant drag de la carte
 			// Permettra de setter la position initiale de currentMovedPTasDeCarte pour le deplacement.
 			Point cLoc = pc.getLocation();
@@ -159,12 +155,11 @@ public class PSabot extends JPanel {
 			new Point(cLoc.x + pcLoc.x, cLoc.y + pcLoc.y);			
 			
 			
-			
 			System.out.println("    PSabot -> CCarte : " + cc.toString());
 			
 			// C'est le controle qui gere lui meme si cc est null apres que
 			// l'utilisateur est pas selectionne la bonne carte
-			cSabot.p2cDebutDnD(ctdc);
+			cSabot.p2cDebutDnD(cc);
 			
 			
 		} catch (Exception e1) {
