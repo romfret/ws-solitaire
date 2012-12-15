@@ -33,7 +33,7 @@ public class PCarte extends JPanel {
 		 this.controle = controle;
 
 		// image de la face
-		icone = new ImageIcon("cartesCSHD/" + chaine + ".gif");
+		icone = new ImageIcon("cartesCSHD" + System.getProperty("file.separator")  + chaine + ".gif");
 		face = new JLabel(icone);
 		add(face);
 		face.setLocation(0, 0);
